@@ -1,1 +1,3 @@
-expect(true).toBeTruthy();
+test('void test', () => {
+  expect(true).toBeTruthy();
+});
