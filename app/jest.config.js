@@ -22,7 +22,6 @@ module.exports = {
   ],
   maxWorkers: 1,
   testMatch: [
-    '**/tests/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[tj]s?(x)',
   ],
   testPathIgnorePatterns: [
