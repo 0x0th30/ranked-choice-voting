@@ -16,8 +16,8 @@ enum VotingState {
 }
 
 model Voting {
-  sessionId        String      @id @unique
-  sessionName      String
+  uuid             String      @id @unique
+  name             String
   availableOptions String[]
   state            VotingState
   createdAt        DateTime    @default(now())
