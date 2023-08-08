@@ -4,19 +4,19 @@ import { logger } from '@utils/logger';
 const TIMEOUT_IN_MS = 5000;
 
 const url = process.env['REDIS_URI'];
-const redisClient = createClient({
+const RedisClient = createClient({
   url,
   socket: { reconnectStrategy: TIMEOUT_IN_MS },
 });
-redisClient.connect();
+RedisClient.connect();
 
-redisClient.on('ready', () => {
+RedisClient.on('ready', () => {
   logger.info('Redis connection was successfully established!');
 });
 
-redisClient.on('error', (error) => {
+RedisClient.on('error', (error) => {
   logger.error(`Redis connection has been failed: ${error}.`
     + ` Trying again in ${TIMEOUT_IN_MS}ms...`);
 });
 
-export { redisClient };
+export { RedisClient };

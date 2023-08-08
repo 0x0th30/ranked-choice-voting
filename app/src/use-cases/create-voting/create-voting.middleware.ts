@@ -1,9 +1,18 @@
 import { Request, Response } from 'express';
+import { RedisClientType } from '@redis/client';
+import { PrismaClient } from '@prisma/client';
+import { RedisClient } from '@loaders/redis';
 import { Middleware } from '@contracts/middleware';
+import { WriteThrough } from '@repositories/write-through';
 import { CreateVoting } from './create-voting.business';
 import { CreateVotingHTTPResponse } from './create-voting.d';
 
-const CreateVotingBusiness = new CreateVoting();
+const PrismaManager = new PrismaClient();
+const WriteThroughManager = new WriteThrough(
+  PrismaManager,
+  RedisClient as RedisClientType,
+);
+const CreateVotingBusiness = new CreateVoting(WriteThroughManager);
 
 export class CreateVotingMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
@@ -21,7 +30,7 @@ export class CreateVotingMiddleware implements Middleware {
 
     if (createVoting.success && createVoting.data) {
       responseContent.success = true;
-      responseContent.data = { sessionId: createVoting.data.sessionId };
+      responseContent.data = { uuid: createVoting.data.uuid };
       return response.status(201).json(responseContent);
     }
 

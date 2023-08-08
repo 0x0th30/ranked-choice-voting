@@ -1,11 +1,11 @@
 export interface CreateVotingDTO {
   success: boolean,
-  data?: { sessionId: string },
+  data?: { uuid: string },
   error?: Error,
 }
 
 export interface CreateVotingHTTPResponse {
   success: boolean,
-  data?: { sessionId: string },
+  data?: { uuid: string },
   message?: string
 }
