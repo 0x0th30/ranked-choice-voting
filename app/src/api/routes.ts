@@ -4,7 +4,6 @@ import { CreateVotingMiddleware }
 
 const router = Router();
 
-router.use('/session');
 router.post('/create', new CreateVotingMiddleware().handle);
 
 export { router };
