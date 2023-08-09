@@ -1,4 +1,4 @@
-import { v1 as uuid } from 'uuid';
+import { v1 as uuidv1 } from 'uuid';
 import { PrismaClient, Voting } from '@prisma/client';
 import { RedisClientType } from '@redis/client';
 import { logger } from '@utils/logger';
@@ -9,8 +9,8 @@ export class WriteThrough {
     private readonly RedisManager: RedisClientType,
   ) {}
 
-  public async writeVotingSession(name: string, options: Array<string>): Promise<Voting> {
-    const votingUUID = uuid();
+  public async writeNewVoting(name: string, options: Array<string>): Promise<Voting> {
+    const votingUUID = uuidv1();
     const votingState = 'OPEN';
 
     logger.info(`Caching voting options to voting "${name}"...`);

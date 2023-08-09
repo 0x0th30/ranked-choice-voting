@@ -12,7 +12,7 @@ export class CreateVoting {
     const response: CreateVotingDTO = { success: false };
 
     logger.info('Sending voting to write-through...');
-    await this.WriteThroughManager.writeVotingSession(name, options)
+    await this.WriteThroughManager.writeNewVoting(name, options)
       .then((voting) => {
         response.success = true;
         response.data = { uuid: voting.uuid };
