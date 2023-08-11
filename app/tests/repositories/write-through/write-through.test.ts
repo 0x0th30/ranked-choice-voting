@@ -3,10 +3,14 @@ import { RedisClientType } from '@redis/client';
 import { WriteThrough } from '@repositories/write-through';
 import { PrismaMock } from '@mocks/prisma.mock';
 import { RedisMock } from '@mocks/redis.mock';
-import { uuidv1Mock } from '@mocks/uuid.mock';
 import { CreatedVoting } from './write-through.helper';
 
-jest.mock('uuid');
+jest.mock('uuid', () => ({ v1: () => 'f@k3-uuid-h3r3' }));
+
+const uuid = 'f@k3-uuid-h3r3';
+const name = 'voting name';
+const options = ['option1', 'option2', 'option3'];
+const state = 'OPEN';
 
 const WriteThroughSUT = new WriteThrough(
   PrismaMock as any as PrismaClient,
@@ -16,11 +20,6 @@ const WriteThroughSUT = new WriteThrough(
 describe('WriteThrough class', () => {
   describe('(public) writeNewVoting method', () => {
     it('should return voting data if write successfully', () => {
-      const uuid = 'f@k3-uuid-h3r3';
-      const name = 'voting name';
-      const options = ['option1', 'option2', 'option3'];
-
-      uuidv1Mock.mockReturnValueOnce(uuid);
       RedisMock.set.mockResolvedValueOnce('OK');
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
@@ -30,14 +29,9 @@ describe('WriteThrough class', () => {
       });
     });
     it('should cache voting options in Redis', () => {
-      const uuid = 'f@k3-uuid-h3r3';
-      const name = 'voting name';
-      const options = ['option1', 'option2', 'option3'];
-
       const votingOptionsKey = `${uuid}:options`;
       const votingOptionsValue = options.join(',');
 
-      uuidv1Mock.mockReturnValueOnce(uuid);
       RedisMock.set.mockResolvedValueOnce('OK');
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
@@ -47,7 +41,33 @@ describe('WriteThrough class', () => {
           .toHaveBeenNthCalledWith(1, votingOptionsKey, votingOptionsValue);
       });
     });
-    it.todo('should cache voting state in Redis');
-    it.todo('should store voting data in Postgres');
+    it('should cache voting state in Redis', () => {
+      const votingStateKey = `${uuid}:state`;
+      const votingStateValue = 'OPEN';
+
+      RedisMock.set.mockResolvedValueOnce('OK');
+      RedisMock.set.mockResolvedValueOnce('OK');
+      PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
+
+      WriteThroughSUT.writeNewVoting(name, options).then(() => {
+        expect(RedisMock.set)
+          .toHaveBeenNthCalledWith(2, votingStateKey, votingStateValue);
+      });
+    });
+    it('should store voting data in Postgres', () => {
+      const voting = {
+        data: {
+          uuid, name, availableOptions: options, state,
+        },
+      };
+
+      RedisMock.set.mockResolvedValueOnce('OK');
+      RedisMock.set.mockResolvedValueOnce('OK');
+      PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
+
+      WriteThroughSUT.writeNewVoting(name, options).then(() => {
+        expect(PrismaMock.voting.create).toBeCalledWith(voting);
+      });
+    });
   });
 });
