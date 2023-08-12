@@ -2,7 +2,7 @@
 API to manage, create and vote by [ranked choice voting system](https://en.wikipedia.org/wiki/Ranked_voting).
 
 ## System Design
-![image](docs/ranked-choice-voting.png)
+![image](docs/ranked-choice-voting.architecture.png)
 
 ## Building application
 The application was write under Docker infrastructure so you can run `docker compose -f docker/docker-compose.yml build` inside root directory.
