@@ -9,7 +9,7 @@ export class WriteThrough {
     private readonly RedisManager: RedisClientType,
   ) {}
 
-  public async writeNewVoting(name: string, options: Array<string>): Promise<Voting> {
+  public async writeVoting(name: string, options: Array<string>): Promise<Voting> {
     const votingUUID = uuidv1();
     const votingState = 'OPEN';
 
