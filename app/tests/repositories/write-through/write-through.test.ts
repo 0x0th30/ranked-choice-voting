@@ -18,13 +18,13 @@ const WriteThroughSUT = new WriteThrough(
 );
 
 describe('WriteThrough class', () => {
-  describe('(public) writeNewVoting method', () => {
+  describe('(public) writeVoting method', () => {
     it('should return voting data if write successfully', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeNewVoting(name, options).then((value) => {
+      WriteThroughSUT.writeVoting(name, options).then((value) => {
         expect(value).toEqual(CreatedVoting);
       });
     });
@@ -36,7 +36,7 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeNewVoting(name, options).then(() => {
+      WriteThroughSUT.writeVoting(name, options).then(() => {
         expect(RedisMock.set)
           .toHaveBeenNthCalledWith(1, votingOptionsKey, votingOptionsValue);
       });
@@ -49,7 +49,7 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeNewVoting(name, options).then(() => {
+      WriteThroughSUT.writeVoting(name, options).then(() => {
         expect(RedisMock.set)
           .toHaveBeenNthCalledWith(2, votingStateKey, votingStateValue);
       });
@@ -65,7 +65,7 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeNewVoting(name, options).then(() => {
+      WriteThroughSUT.writeVoting(name, options).then(() => {
         expect(PrismaMock.voting.create).toBeCalledWith(voting);
       });
     });

@@ -13,36 +13,36 @@ const CreateVotingSUT = new CreateVoting(WriteThroughMock as any as WriteThrough
 describe('CreateVoting class', () => {
   describe('(public) execute method', () => {
     it('should create/return voting if provided valid name/options', () => {
-      WriteThroughMock.writeNewVoting.mockResolvedValueOnce(CreatedVoting as Voting);
+      WriteThroughMock.writeVoting.mockResolvedValueOnce(CreatedVoting as Voting);
 
       CreateVotingSUT.execute(name, options).then((response) => {
         expect(response).toEqual(SuccessCreateVotingDTO);
       });
     });
-    it('should call "WriteThroughManager.writeNewVoting" to persist voting', () => {
-      WriteThroughMock.writeNewVoting.mockResolvedValueOnce(CreatedVoting as Voting);
+    it('should call "WriteThroughManager.writeVoting" to persist voting', () => {
+      WriteThroughMock.writeVoting.mockResolvedValueOnce(CreatedVoting as Voting);
 
       CreateVotingSUT.execute(name, options).then(() => {
-        expect(WriteThroughMock.writeNewVoting).toBeCalled();
+        expect(WriteThroughMock.writeVoting).toBeCalled();
       });
     });
-    it('should call "WriteThroughManager.writeNewVoting" w/ provided'
+    it('should call "WriteThroughManager.writeVoting" w/ provided'
     + ' name/options', () => {
-      WriteThroughMock.writeNewVoting.mockResolvedValueOnce(CreatedVoting as Voting);
+      WriteThroughMock.writeVoting.mockResolvedValueOnce(CreatedVoting as Voting);
 
       CreateVotingSUT.execute(name, options).then(() => {
-        expect(WriteThroughMock.writeNewVoting).toBeCalledWith(name, options);
+        expect(WriteThroughMock.writeVoting).toBeCalledWith(name, options);
       });
     });
     it('should set "success" to "true" when voting creation is successful', () => {
-      WriteThroughMock.writeNewVoting.mockResolvedValueOnce(CreatedVoting as Voting);
+      WriteThroughMock.writeVoting.mockResolvedValueOnce(CreatedVoting as Voting);
 
       CreateVotingSUT.execute(name, options).then((response) => {
         expect(response.success).toEqual(true);
       });
     });
     it('should set return "data" with UUID when voting creation is successful', () => {
-      WriteThroughMock.writeNewVoting.mockResolvedValueOnce(CreatedVoting as Voting);
+      WriteThroughMock.writeVoting.mockResolvedValueOnce(CreatedVoting as Voting);
 
       CreateVotingSUT.execute(name, options).then((response) => {
         expect(response.data).toBeTruthy();
@@ -50,14 +50,14 @@ describe('CreateVoting class', () => {
       });
     });
     it('should set "success" to "false" when voting creation fail', () => {
-      WriteThroughMock.writeNewVoting.mockRejectedValueOnce(new Error('GENERIC_ERROR'));
+      WriteThroughMock.writeVoting.mockRejectedValueOnce(new Error('GENERIC_ERROR'));
 
       CreateVotingSUT.execute(name, options).then((response) => {
         expect(response.success).toEqual(false);
       });
     });
     it('should set return "error" when voting creation fail', () => {
-      WriteThroughMock.writeNewVoting.mockRejectedValueOnce(new Error('GENERIC_ERROR'));
+      WriteThroughMock.writeVoting.mockRejectedValueOnce(new Error('GENERIC_ERROR'));
 
       CreateVotingSUT.execute(name, options).then((response) => {
         expect(response.error).toBeTruthy();
