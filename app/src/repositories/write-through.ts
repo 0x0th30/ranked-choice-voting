@@ -31,4 +31,6 @@ export class WriteThrough {
 
     return voting;
   }
+
+  public async 
 }

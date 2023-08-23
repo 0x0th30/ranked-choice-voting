@@ -5,5 +5,7 @@ export class Vote {
     private readonly LazyLoaderManager: LazyLoader,
   ) {}
 
-  public async execute(vote)
+  public async execute(vote: VoteToBeCreated): Promise<number> {
+    
+  }
 }
