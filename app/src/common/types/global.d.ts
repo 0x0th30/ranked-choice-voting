@@ -5,8 +5,8 @@ declare global {
   }
 
   type VoteToBeCreated = {
-    votingUuid: string,
-    voteSequence: Array<string>,
+    uuid: string,
+    sequence: Array<string>,
   }
 }
 
