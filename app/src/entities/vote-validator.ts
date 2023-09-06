@@ -33,7 +33,7 @@ export class VoteValidator {
     throw new InvalidVotingOptions(uuid, validVotingOptions, invalidVotingOptions);
   }
 
-  public async isVoteValid(vote: VoteToBeCreated): Promise<boolean> {
+  public async validateVote(vote: VoteToBeCreated): Promise<boolean> {
     logger.info('Validating received vote...');
     await this.checkVotingState(vote.uuid);
     await this.checkVotingSequence(vote.uuid, vote.sequence);

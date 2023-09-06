@@ -40,7 +40,7 @@
       "@errors/*": ["src/common/errors/*"],
       "@loaders/*": ["src/common/loaders/*"],
       "@contracts/*": ["src/common/contracts/*"],
-      "@entities/*": ["src/common/contracts/*"],
+      "@entities/*": ["src/entities/*"],
       "@mocks/*": ["tests/mocks/*"]
     }
   },
