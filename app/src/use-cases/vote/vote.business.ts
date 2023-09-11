@@ -1,5 +1,5 @@
 import { VoteValidator } from '@entities/vote-validator';
-import { VoteDTO } from './create-voting.d';
+import { VoteDTO } from './vote.d';
 
 export class Vote {
   constructor(
