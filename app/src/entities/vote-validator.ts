@@ -1,5 +1,6 @@
 import { LazyLoader } from '@repositories/lazy-loader';
-import { ClosedVoting, InvalidVotingOptions } from '@errors/vote-validation-error';
+import { ClosedVoting, InvalidVotingOptions, VotingOptionsSizeMismatch }
+  from '@errors/vote-validation-error';
 import { logger } from '@utils/logger';
 
 export class VoteValidator {
@@ -21,6 +22,14 @@ export class VoteValidator {
     logger.info(`Requesting "${uuid}" voting valid options...`);
     const invalidVotingOptions: Array<string> = [];
     const validVotingOptions = await this.LazyLoaderManager.readVotingOptions(uuid);
+
+    const expectedSize = validVotingOptions.length;
+    const receivedSize = sequence.length;
+    if (receivedSize !== expectedSize) {
+      logger.error(`Received insufficient sequence size! Expecting ${expectedSize} unique`
+        + ` options, received ${receivedSize}.`);
+      throw new VotingOptionsSizeMismatch(uuid, expectedSize, receivedSize);
+    }
 
     logger.info(`Checking if sequence "${sequence}" is valid to voting "${uuid}"...`);
     sequence.forEach((option) => {

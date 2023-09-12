@@ -5,7 +5,8 @@ import { Middleware } from '@contracts/middleware';
 import { VoteValidator } from '@entities/vote-validator';
 import { LazyLoader } from '@repositories/lazy-loader';
 import { RedisClient } from '@loaders/redis';
-import { ClosedVoting, InvalidVotingOptions } from '@errors/vote-validation-error';
+import { ClosedVoting, InvalidVotingOptions, NotFoundVoting }
+  from '@errors/vote-validation-error';
 import { Vote } from './vote.business';
 import { VoteHTTPResponse } from './vote.d';
 
@@ -18,14 +19,16 @@ export class VoteMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: VoteHTTPResponse = { success: false };
 
-    const { vote } = request.body;
+    const { uuid } = request.params;
+    const { sequence } = request.body;
 
-    if (!vote) {
+    if (!sequence) {
       responseContent.success = false;
-      responseContent.message = 'Missing "vote" field in request body!';
+      responseContent.message = 'Missing "sequence" field in request body!';
       return response.status(400).json(responseContent);
     }
 
+    const vote: VoteToBeCreated = { uuid, sequence };
     const createVote = await VoteBusiness.execute(vote);
 
     if (createVote.success) {
@@ -47,6 +50,12 @@ export class VoteMiddleware implements Middleware {
         + `Cannot process values "${createVote.error.invalidOptions}", `
         + `expecting valid options: "${createVote.error.validOptions}"`;
       return response.status(400).json(responseContent);
+    }
+
+    if (createVote.error instanceof NotFoundVoting) {
+      responseContent.success = false;
+      responseContent.message = `Cannot found voting "${vote.uuid}"!`;
+      return response.status(404).json(responseContent);
     }
 
     responseContent.success = false;

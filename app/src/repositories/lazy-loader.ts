@@ -47,7 +47,7 @@ export class LazyLoader {
       .then((value) => {
         if (value) {
           logger.info(`Cache hit! Options to "${uuid}" voting was found.`);
-          return JSON.parse(value) as Array<string>;
+          return value.split(',');
         }
         return false;
       });

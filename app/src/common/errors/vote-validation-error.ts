@@ -29,6 +29,30 @@ export class ClosedVoting extends VotingError {
   }
 }
 
+export class VotingOptionsSizeMismatch extends VotingError {
+  public uuid: string;
+
+  public expectedSize: number;
+
+  public receivedSize: number;
+
+  constructor(
+    uuid: string,
+    expectedSize: number,
+    receivedSize: number,
+  ) {
+    super();
+    this.name = super.name;
+    this.stack = super.stack;
+    this.message = `"${uuid}" voting was expecting ${expectedSize} voting options `
+      + `instead ${receivedSize}`;
+
+    this.uuid = uuid;
+    this.expectedSize = expectedSize;
+    this.receivedSize = receivedSize;
+  }
+}
+
 export class InvalidVotingOptions extends VotingError {
   public uuid: string;
 
