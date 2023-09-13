@@ -3,6 +3,7 @@ import { RedisClientType } from '@redis/client';
 import { PrismaClient } from '@prisma/client';
 import { Middleware } from '@contracts/middleware';
 import { VoteValidator } from '@entities/vote-validator';
+import { RabbitMQ } from '@loaders/rabbitmq';
 import { LazyLoader } from '@repositories/lazy-loader';
 import { RedisClient } from '@loaders/redis';
 import {
@@ -17,7 +18,8 @@ import { VoteHTTPResponse } from './vote.d';
 const PrismaManager = new PrismaClient();
 const LazyLoaderManager = new LazyLoader(PrismaManager, RedisClient as RedisClientType);
 const VoteValidatorEntity = new VoteValidator(LazyLoaderManager);
-const VoteBusiness = new Vote(VoteValidatorEntity);
+const RabbitMQManager = new RabbitMQ();
+const VoteBusiness = new Vote(VoteValidatorEntity, RabbitMQManager);
 
 export class VoteMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
