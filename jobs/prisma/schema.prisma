@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum VotingState {
+  OPEN
+  CLOSED
+}
+
+model Voting {
+  uuid             String      @id @unique
+  name             String
+  availableOptions String[]
+  state            VotingState
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  Vote             Vote[]
+}
+
+model Vote {
+  id           Int      @id @unique @default(autoincrement())
+  voting       Voting   @relation(fields: [votingUuid], references: [uuid])
+  votingUuid   String
+  voteSequence String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt()
+}
