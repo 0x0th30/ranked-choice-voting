@@ -36,10 +36,13 @@ export class VotingOptionsSizeMismatch extends VotingError {
 
   public receivedSize: number;
 
+  public validOptions: Array<string>;
+
   constructor(
     uuid: string,
     expectedSize: number,
     receivedSize: number,
+    validOptions: Array<string>,
   ) {
     super();
     this.name = super.name;
@@ -50,6 +53,7 @@ export class VotingOptionsSizeMismatch extends VotingError {
     this.uuid = uuid;
     this.expectedSize = expectedSize;
     this.receivedSize = receivedSize;
+    this.validOptions = validOptions;
   }
 }
 

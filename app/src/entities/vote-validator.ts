@@ -17,18 +17,27 @@ export class VoteValidator {
     throw new ClosedVoting(uuid);
   }
 
-  private async checkVotingSequence(uuid: string, sequence: Array<string>)
+  private async checkVotingSequence(uuid: string, rawSequence: Array<string>)
     : Promise<boolean> {
     logger.info(`Requesting "${uuid}" voting valid options...`);
     const invalidVotingOptions: Array<string> = [];
     const validVotingOptions = await this.LazyLoaderManager.readVotingOptions(uuid);
 
+    logger.info(`Asserting unique voting options to "${uuid}" voting sequence...`);
+    const sequence = rawSequence
+      .filter((option, position) => rawSequence.indexOf(option) === position);
+
     const expectedSize = validVotingOptions.length;
     const receivedSize = sequence.length;
     if (receivedSize !== expectedSize) {
-      logger.error(`Received insufficient sequence size! Expecting ${expectedSize} unique`
+      logger.error(`Received unexpected sequence size! Expecting ${expectedSize} unique`
         + ` options, received ${receivedSize}.`);
-      throw new VotingOptionsSizeMismatch(uuid, expectedSize, receivedSize);
+      throw new VotingOptionsSizeMismatch(
+        uuid,
+        expectedSize,
+        receivedSize,
+        validVotingOptions,
+      );
     }
 
     logger.info(`Checking if sequence "${sequence}" is valid to voting "${uuid}"...`);

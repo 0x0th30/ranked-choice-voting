@@ -5,8 +5,12 @@ import { Middleware } from '@contracts/middleware';
 import { VoteValidator } from '@entities/vote-validator';
 import { LazyLoader } from '@repositories/lazy-loader';
 import { RedisClient } from '@loaders/redis';
-import { ClosedVoting, InvalidVotingOptions, NotFoundVoting }
-  from '@errors/vote-validation-error';
+import {
+  ClosedVoting,
+  InvalidVotingOptions,
+  NotFoundVoting,
+  VotingOptionsSizeMismatch,
+} from '@errors/vote-validation-error';
 import { Vote } from './vote.business';
 import { VoteHTTPResponse } from './vote.d';
 
@@ -48,7 +52,17 @@ export class VoteMiddleware implements Middleware {
       responseContent.success = false;
       responseContent.message = `Invalid voting options to voting "${vote.uuid}"! `
         + `Cannot process values "${createVote.error.invalidOptions}", `
-        + `expecting valid options: "${createVote.error.validOptions}"`;
+        + `expecting valid options: "${createVote.error.validOptions}".`;
+      return response.status(400).json(responseContent);
+    }
+
+    if (createVote.error instanceof VotingOptionsSizeMismatch) {
+      responseContent.success = false;
+      responseContent.message = `Invalid voting options to voting "${vote.uuid}"! `
+        + `Received ${createVote.error.receivedSize} options instead `
+        + `${createVote.error.expectedSize}. `
+        + `Valid options: "${createVote.error.validOptions}". `
+        + 'Repeated values will be ignored.';
       return response.status(400).json(responseContent);
     }
 
