@@ -31,6 +31,8 @@ services:
     image: rabbitmq
     env_file:
       - ../config/rabbitmq.env
+    ports:
+      - 5672:5672
 
   postgres:
     container_name: ranked-choice-voting-postgres
