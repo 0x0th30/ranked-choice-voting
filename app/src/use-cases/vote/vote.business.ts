@@ -4,7 +4,7 @@ import { RabbitMQ } from '@loaders/rabbitmq';
 import { VoteDTO } from './vote.d';
 
 export class Vote {
-  private readonly VOTE_QUEUE_NAME = 'vote';
+  private readonly QUEUE_NAME = 'vote';
 
   constructor(
     private readonly VoteValidatorEntity: VoteValidator,
@@ -25,7 +25,7 @@ export class Vote {
 
     logger.info('Sending vote to processing queue...');
     if (response.success) {
-      await this.RabbitMQManager.sendMessageToQueue(this.VOTE_QUEUE_NAME, vote)
+      await this.RabbitMQManager.sendMessageToQueue(this.QUEUE_NAME, vote)
         .catch((error) => {
           logger.error(`Something went wrong during vote enqueue. Details: ${error}`);
           response.success = false;
