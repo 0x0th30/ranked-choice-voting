@@ -39,9 +39,9 @@
     "lint:fix": "eslint --fix src tests",
     "test": "jest --verbose",
     "test:silent": "jest --silent --verbose",
-    "start:dev": "yarn start:prisma && ts-node-dev -r tsconfig-paths/register src/vote-processor.ts",
     "start:prisma": "prisma generate && prisma migrate deploy",
-    "start:vote-processor": "yarn start:prisma && node dist/vote-processor.js",
+    "start:dev:vote-processor": "yarn start:prisma && ts-node-dev -r tsconfig-paths/register src/vote-processor.ts",
+    "start:prod:vote-processor": "yarn start:prisma && node dist/vote-processor.js",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "resolutions": {
