@@ -49,8 +49,8 @@ export class VoteProcessor {
   }
 }
 
-const foo = new VoteProcessor(
+const worker = new VoteProcessor(
   new WriteThrough(new PrismaClient(), RedisClient as RedisClientType)
 );
 
-foo.start();
+worker.start();
