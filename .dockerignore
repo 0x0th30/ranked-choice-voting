@@ -5,3 +5,9 @@
 !app/tsconfig.json
 !app/package.json
 !app/babel.config.js
+
+!jobs/src/
+!jobs/prisma/
+!jobs/tsconfig.json
+!jobs/package.json
+!jobs/babel.config.js
