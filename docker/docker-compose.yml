@@ -18,6 +18,24 @@ services:
       - redis
       - postgres
 
+  jobs:
+    container_name: ranked-choice-voting-jobs
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.jobs.prod
+      # dockerfile: docker/Dockerfile.jobs.dev
+    env_file:
+      - ../config/app.env
+    depends_on:
+      - api
+      - rabbitmq
+      - redis
+      - postgres
+    links:
+      - rabbitmq
+      - redis
+      - postgres
+
   redis:
     container_name: ranked-choice-voting-redis
     image: redis
