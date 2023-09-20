@@ -16,20 +16,41 @@ enum VotingState {
 }
 
 model Voting {
-  uuid             String      @id @unique
-  name             String
-  availableOptions String[]
-  state            VotingState
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  Vote             Vote[]
+  uuid              String      @id @unique
+  user              User        @relation(fields: [author_uuid], references: [uuid])
+  author_uuid       String
+  name              String
+  available_options String[]
+  state             VotingState
+  created_at        DateTime    @default(now())
+  updated_at        DateTime    @updatedAt
+  votes             Vote[]
 }
 
 model Vote {
-  id           Int      @id @unique @default(autoincrement())
-  voting       Voting   @relation(fields: [votingUuid], references: [uuid])
-  votingUuid   String
-  voteSequence String[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt()
+  id            Int      @id @unique @default(autoincrement())
+  user          User     @relation(fields: [user_uuid], references: [uuid])
+  user_uuid     String
+  voting        Voting   @relation(fields: [voting_uuid], references: [uuid])
+  voting_uuid   String
+  vote_sequence String[]
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt()
+}
+
+enum UserState {
+  ACTIVE
+  INACTIVE
+}
+
+model User {
+  uuid          String    @id @unique
+  name          String
+  email         String    @unique
+  password_hash String
+  state         UserState
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt()
+  votes         Vote[]
+  votings       Voting[]
 }
