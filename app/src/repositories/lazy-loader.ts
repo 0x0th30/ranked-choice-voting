@@ -55,11 +55,11 @@ export class LazyLoader {
 
     logger.info(`Cache miss! Searching by "${uuid}" voting options in database...`);
     const storedVotingOptions = await this.PrismaManager.voting
-      .findFirst({ select: { availableOptions: true }, where: { uuid } })
+      .findFirst({ select: { available_options: true }, where: { uuid } })
       .then((value) => {
-        if (value && value.availableOptions) {
+        if (value && value.available_options) {
           logger.info(`Options to "${uuid}" voting was found.`);
-          return value.availableOptions;
+          return value.available_options;
         }
         return false;
       });

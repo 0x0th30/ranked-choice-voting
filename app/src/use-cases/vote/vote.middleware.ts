@@ -15,11 +15,14 @@ import {
 import { Vote } from './vote.business';
 import { VoteHTTPResponse } from './vote.d';
 
-const PrismaManager = new PrismaClient();
-const LazyLoaderManager = new LazyLoader(PrismaManager, RedisClient as RedisClientType);
-const VoteValidatorEntity = new VoteValidator(LazyLoaderManager);
-const RabbitMQManager = new RabbitMQ();
-const VoteBusiness = new Vote(VoteValidatorEntity, RabbitMQManager);
+const LazyLoaderManager = new LazyLoader(
+  new PrismaClient(),
+  RedisClient as RedisClientType,
+);
+const VoteBusiness = new Vote(
+  new VoteValidator(LazyLoaderManager),
+  new RabbitMQ(),
+);
 
 export class VoteMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {

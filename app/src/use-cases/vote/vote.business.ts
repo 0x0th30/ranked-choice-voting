@@ -23,8 +23,8 @@ export class Vote {
         response.error = error;
       });
 
-    logger.info('Sending vote to processing queue...');
     if (response.success) {
+      logger.info('Sending vote to processing queue...');
       await this.RabbitMQManager.sendMessageToQueue(this.QUEUE_NAME, vote)
         .catch((error) => {
           logger.error(`Something went wrong during vote enqueue. Details: ${error}`);

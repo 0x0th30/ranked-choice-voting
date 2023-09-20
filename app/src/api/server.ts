@@ -12,7 +12,7 @@ export class Server {
   private loadServerConfigs(): void {
     logger.info('Setting up server configs...');
     this.app.use(express.json());
-    this.app.use('/voting', router);
+    this.app.use('/api/v1', router);
   }
 
   private bindServer(): void {

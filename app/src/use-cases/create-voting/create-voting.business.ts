@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { logger } from '@utils/logger';
 import { WriteThrough } from '@repositories/write-through';
 import { CreateVotingDTO } from './create-voting.d';
@@ -11,8 +12,11 @@ export class CreateVoting {
     logger.info('Initializing "create-voting" service/use-case...');
     const response: CreateVotingDTO = { success: false };
 
+    const uuid = uuidv4();
+    const state = 'OPEN';
+
     logger.info('Sending voting to write-through...');
-    await this.WriteThroughManager.writeVoting(name, options)
+    await this.WriteThroughManager.writeVoting(uuid, name, options, state)
       .then((voting) => {
         response.success = true;
         response.data = { uuid: voting.uuid };

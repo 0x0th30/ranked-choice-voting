@@ -16,7 +16,7 @@ export class WriteThrough {
 
     logger.info(`Storing vote to voting "${votingUUID}" in database...`);
     const vote = await this.PrismaManager.vote.create({
-      data: { votingUuid: votingUUID, voteSequence: sequence },
+      data: { voting_uuid: votingUUID, vote_sequence: sequence },
     });
 
     return vote;
