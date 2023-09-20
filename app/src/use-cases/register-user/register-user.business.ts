@@ -43,7 +43,7 @@ export class RegisterUser {
           state,
         },
       }).catch((error) => {
-        logger.error(`Something went worng during user storing. Details: ${error}`);
+        logger.error(`Something went wrong during user storing. Details: ${error}`);
         response.success = false;
         response.error = error;
       });
