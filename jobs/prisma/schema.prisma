@@ -44,13 +44,30 @@ enum UserState {
 }
 
 model User {
-  uuid          String    @id @unique
-  name          String
-  email         String    @unique
-  password_hash String
-  state         UserState
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt()
-  votes         Vote[]
-  votings       Voting[]
+  uuid              String            @id @unique
+  name              String
+  email             String            @unique
+  password_hash     String
+  state             UserState
+  created_at        DateTime          @default(now())
+  updated_at        DateTime          @updatedAt()
+  votes             Vote[]
+  votings           Voting[]
+  validation_tokens ValidationToken[]
+}
+
+enum TokenValidity {
+  UNUSED
+  REVOKED
+  EXPIRED
+}
+
+model ValidationToken {
+  token       String        @id @unique
+  status      TokenValidity
+  expiry_time DateTime
+  user        User          @relation(fields: [user_uuid], references: [uuid])
+  user_uuid   String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt()
 }
