@@ -10,6 +10,6 @@ const router = Router();
 router.post('/votings/create', new CreateVotingMiddleware().handle);
 router.post('/votings/:uuid/vote', new VoteMiddleware().handle);
 
-router.post('/user/register', new RegisterUserMiddleware().handle);
+router.post('/users/register', new RegisterUserMiddleware().handle);
 
 export { router };

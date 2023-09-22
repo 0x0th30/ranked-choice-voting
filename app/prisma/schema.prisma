@@ -54,3 +54,16 @@ model User {
   votes         Vote[]
   votings       Voting[]
 }
+
+enum TokenValidity {
+  VALID
+  INVALID
+}
+
+model ValidationToken {
+  token       String        @id @unique
+  status      TokenValidity
+  expiry_time DateTime
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt()
+}
