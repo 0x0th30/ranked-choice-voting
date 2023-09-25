@@ -18,6 +18,7 @@ export class CreateVotingMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: CreateVotingHTTPResponse = { success: false };
 
+    const { uuid } = (request as any).user;
     const { name, options } = request.body;
 
     if (!name || !options) {
@@ -26,7 +27,7 @@ export class CreateVotingMiddleware implements Middleware {
       return response.status(400).json(responseContent);
     }
 
-    const createVoting = await CreateVotingBusiness.execute(name, options);
+    const createVoting = await CreateVotingBusiness.execute(uuid, name, options);
 
     if (createVoting.success && createVoting.data) {
       responseContent.success = true;

@@ -8,7 +8,8 @@ export class CreateVoting {
     private readonly WriteThroughManager: WriteThrough,
   ) {}
 
-  public async execute(name: string, options: Array<string>): Promise<CreateVotingDTO> {
+  public async execute(userUUID: string, name: string, options: Array<string>)
+  : Promise<CreateVotingDTO> {
     logger.info('Initializing "create-voting" service/use-case...');
     const response: CreateVotingDTO = { success: false };
 
@@ -16,7 +17,7 @@ export class CreateVoting {
     const state = 'OPEN';
 
     logger.info('Sending voting to write-through...');
-    await this.WriteThroughManager.writeVoting(uuid, name, options, state)
+    await this.WriteThroughManager.writeVoting(userUUID, uuid, name, options, state)
       .then((voting) => {
         response.success = true;
         response.data = { uuid: voting.uuid };
