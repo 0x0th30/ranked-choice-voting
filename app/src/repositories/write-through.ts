@@ -9,6 +9,7 @@ export class WriteThrough {
   ) {}
 
   public async writeVoting(
+    userUUID: string,
     uuid: string,
     name: string,
     options: Array<string>,
@@ -26,7 +27,7 @@ export class WriteThrough {
     logger.info(`Storing voting "${name}" in database...`);
     const voting = await this.PrismaManager.voting.create({
       data: {
-        uuid, name, available_options: options, state,
+        uuid, name, available_options: options, state, author_uuid: userUUID,
       },
     });
 
