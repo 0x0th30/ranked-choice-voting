@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { Middleware } from '@contracts/middleware';
-import { UserValidator } from '@entities/user-validator';
+import { InactiveUser, InvalidPassword, NotFoundUserUsingEmail }
+  from '@errors/auth-error';
 import { AuthUserHTTPResponse } from './auth-user.d';
 import { AuthUser } from './auth-user.business';
 
 const AuthUserBusiness = new AuthUser(
   new PrismaClient(),
-  new UserValidator(new PrismaClient()),
 );
 
 export class AuthUserMiddleware implements Middleware {
@@ -26,8 +26,24 @@ export class AuthUserMiddleware implements Middleware {
 
     if (authUser.success && authUser.data) {
       responseContent.success = true;
-      responseContent.message = 'User successfully auth!';
-      return response.status(200).json(responseContent);
+      responseContent.message = 'User is successfully auth!';
+      return response
+        .status(200)
+        .header('auth-token', authUser.data.token)
+        .json(responseContent);
+    }
+
+    if (authUser.error instanceof NotFoundUserUsingEmail
+      || authUser.error instanceof InvalidPassword) {
+      responseContent.success = false;
+      responseContent.message = 'Cannot auth with provided credentials!';
+      return response.status(401).json(responseContent);
+    }
+
+    if (authUser.error instanceof InactiveUser) {
+      responseContent.success = false;
+      responseContent.message = `User with email "${email}" is currently inactive!`;
+      return response.status(403).json(responseContent);
     }
 
     responseContent.success = false;
