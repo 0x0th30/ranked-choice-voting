@@ -1,10 +1,9 @@
-export interface AuthUserDTO {
+export interface ActivateAccountDTO {
   success: boolean,
-  data?: { token: string },
   error?: Error,
 }
 
-export interface AuthUserHTTPResponse {
+export interface ActivateAccountHTTPResponse {
   success: boolean,
   message?: string
 }
