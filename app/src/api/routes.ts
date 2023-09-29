@@ -26,7 +26,7 @@ router.post(
 
 router.post('/users/register', new RegisterUserMiddleware().handle);
 router.post('/users/auth', new AuthUserMiddleware().handle);
-router.get('/users/send-activation-link', new SendActivationLinkMiddleware().handle);
-router.get('/users/:token/activate-account', new ActivateAccountMiddleware().handle);
+router.post('/users/send-activation-link', new SendActivationLinkMiddleware().handle);
+router.post('/users/:token/activate-account', new ActivateAccountMiddleware().handle);
 
 export { router };
