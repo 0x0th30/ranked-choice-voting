@@ -8,8 +8,9 @@ import { AuthUserMiddleware } from '@use-cases/auth-user/auth-user.middleware';
 import { CheckAuthMiddleware } from '@use-cases/check-auth/check-auth.middleware';
 import { ActivateAccountMiddleware }
   from '@use-cases/activate-account/activate-account.middleware';
-import { SendActivationLinkMiddleware }
-  from '@use-cases/send-activation-link/send-activation-link.middleware';
+import { SendTokenMiddleware } from '@use-cases/send-token/send-token.middleware';
+import { PasswordRecoverMiddleware }
+  from '@use-cases/password-recover/password-recover.middleware';
 
 const router = Router();
 
@@ -26,7 +27,8 @@ router.post(
 
 router.post('/users/register', new RegisterUserMiddleware().handle);
 router.post('/users/auth', new AuthUserMiddleware().handle);
-router.post('/users/send-activation-link', new SendActivationLinkMiddleware().handle);
+router.post('/users/send-token', new SendTokenMiddleware().handle);
 router.post('/users/:token/activate-account', new ActivateAccountMiddleware().handle);
+router.post('/users/:token/password-recover', new PasswordRecoverMiddleware().handle);
 
 export { router };

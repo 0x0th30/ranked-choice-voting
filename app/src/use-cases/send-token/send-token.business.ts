@@ -1,15 +1,15 @@
 import { TokenGenerator } from '@entities/token-generator';
 import { logger } from '@utils/logger';
-import { SendActivationLinkDTO } from './send-activation-link.d';
+import { SendTokenDTO } from './send-token.d';
 
-export class SendActivationLink {
+export class SendToken {
   constructor(
     private readonly TokenGeneratorEntity: TokenGenerator,
   ) { }
 
-  public async execute(email: string): Promise<SendActivationLinkDTO> {
-    logger.info('Initializing "send-activation-link" service/use-case...');
-    const response: SendActivationLinkDTO = { success: false };
+  public async execute(email: string): Promise<SendTokenDTO> {
+    logger.info('Initializing "send-token" service/use-case...');
+    const response: SendTokenDTO = { success: false };
 
     logger.info(`Generating activation token to user with email "${email}"...`);
     const token = await this.TokenGeneratorEntity.generate(email)
@@ -21,7 +21,7 @@ export class SendActivationLink {
     if (token) response.success = true;
     console.log(token);
 
-    logger.info('Finishing "send-activation-link" service/use-case.');
+    logger.info('Finishing "send-token" service/use-case.');
     return response;
   }
 }

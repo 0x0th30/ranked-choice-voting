@@ -2,16 +2,16 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { Middleware } from '@contracts/middleware';
 import { TokenGenerator } from '@entities/token-generator';
-import { SendActivationLinkHTTPResponse } from './send-activation-link.d';
-import { SendActivationLink } from './send-activation-link.business';
+import { SendTokenHTTPResponse } from './send-token.d';
+import { SendToken } from './send-token.business';
 
-const SendActivationLinkBusiness = new SendActivationLink(
+const SendTokenBusiness = new SendToken(
   new TokenGenerator(new PrismaClient()),
 );
 
-export class SendActivationLinkMiddleware implements Middleware {
+export class SendTokenMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
-    const responseContent: SendActivationLinkHTTPResponse = { success: false };
+    const responseContent: SendTokenHTTPResponse = { success: false };
 
     const { email } = request.body;
     if (!email) {
@@ -20,12 +20,11 @@ export class SendActivationLinkMiddleware implements Middleware {
       return response.status(400).json(responseContent);
     }
 
-    const sendActivationLink = await SendActivationLinkBusiness.execute(email);
+    const sendToken = await SendTokenBusiness.execute(email);
 
-    if (sendActivationLink.success) {
+    if (sendToken.success) {
       responseContent.success = true;
-      responseContent.message = 'Activation link was successfully sent! Check your '
-        + 'email box!';
+      responseContent.message = 'Your token was successfully sent! Check your email box!';
       return response.status(200).json(responseContent);
     }
 
