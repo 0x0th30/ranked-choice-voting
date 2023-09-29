@@ -13,9 +13,14 @@ export class SendActivationLinkMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: SendActivationLinkHTTPResponse = { success: false };
 
-    const { user } = request as any;
+    const { email } = request.body;
+    if (!email) {
+      responseContent.success = false;
+      responseContent.message = 'Missing "email" field in request body!';
+      return response.status(400).json(responseContent);
+    }
 
-    const sendActivationLink = await SendActivationLinkBusiness.execute(user.uuid);
+    const sendActivationLink = await SendActivationLinkBusiness.execute(email);
 
     if (sendActivationLink.success) {
       responseContent.success = true;

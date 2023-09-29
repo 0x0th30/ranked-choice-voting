@@ -9,17 +9,17 @@ export class ActivateAccount {
     private readonly PrismaManager: PrismaClient,
   ) { }
 
-  public async execute(uuid: string, token: string)
+  public async execute(email: string, token: string)
     : Promise<ActivateAccountDTO> {
     logger.info('Initializing "activate-account" service/use-case...');
     const response: ActivateAccountDTO = { success: false };
 
-    logger.info(`Using provided token to activate user's account with uuid "${uuid}"...`);
-    await this.UseTokenEntity.use(uuid, token)
+    logger.info(`Using provided token to activate user's account w/ email "${email}"...`);
+    await this.UseTokenEntity.use(email, token)
       .then(async () => {
-        logger.info(`Activating account with uuid "${uuid}"...`);
+        logger.info(`Activating account with email "${email}"...`);
         await this.PrismaManager.user.update({
-          where: { uuid },
+          where: { email },
           data: { state: 'ACTIVE' },
         });
 

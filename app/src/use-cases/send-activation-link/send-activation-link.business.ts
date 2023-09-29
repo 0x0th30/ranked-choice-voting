@@ -7,8 +7,7 @@ export class SendActivationLink {
     private readonly TokenGeneratorEntity: TokenGenerator,
   ) { }
 
-  public async execute(email: string)
-    : Promise<SendActivationLinkDTO> {
+  public async execute(email: string): Promise<SendActivationLinkDTO> {
     logger.info('Initializing "send-activation-link" service/use-case...');
     const response: SendActivationLinkDTO = { success: false };
 

@@ -7,15 +7,14 @@ export class UseToken {
     private readonly PrismaManager: PrismaClient,
   ) {}
 
-  public async use(requesterUUID: string, token: string): Promise<void> {
+  public async use(email: string, token: string): Promise<void> {
     logger.info(`Searching by token "${token}"...`);
     const searchToken = await this.PrismaManager.token.findFirst({
-      where: { token, user_uuid: requesterUUID },
+      where: { token, user_email: email },
     });
 
     if (!searchToken) {
-      logger.error(`Cannot found no one token "${token}" to user with `
-        + `uuid "${requesterUUID}"!`);
+      logger.error(`Cannot found no one token "${token}" to user w/ email "${email}"!`);
       throw new NotFoundToken(token);
     }
 
@@ -25,7 +24,7 @@ export class UseToken {
 
     logger.info(`Updating token "${token}" status to "REVOKED"!`);
     await this.PrismaManager.token.update({
-      where: { token, user_uuid: requesterUUID },
+      where: { token, user_email: email },
       data: { status: 'REVOKED' },
     });
   }

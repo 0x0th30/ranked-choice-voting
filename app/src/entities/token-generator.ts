@@ -17,7 +17,7 @@ export class TokenGenerator {
         token,
         status,
         expiry_time: expiryTime,
-        user_uuid: ,
+        user_email: email,
       },
     });
 

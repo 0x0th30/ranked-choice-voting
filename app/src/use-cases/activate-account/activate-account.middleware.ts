@@ -15,15 +15,20 @@ export class ActivateAccountMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: ActivateAccountHTTPResponse = { success: false };
 
-    const { user } = request as any;
+    const { email } = request.body;
     const { token } = request.params;
+    if (!email) {
+      responseContent.success = false;
+      responseContent.message = 'Missing "email" field in request body!';
+      return response.status(400).json(responseContent);
+    }
     if (!token) {
       responseContent.success = false;
       responseContent.message = 'Missing "token" query parameter!';
       return response.status(400).json(responseContent);
     }
 
-    const activateAccount = await ActivateAccountBusiness.execute(user.uuid, token);
+    const activateAccount = await ActivateAccountBusiness.execute(email, token);
 
     if (activateAccount.success) {
       responseContent.success = true;
