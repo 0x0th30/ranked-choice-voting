@@ -33,7 +33,7 @@ export class PasswordRecoverMiddleware implements Middleware {
 
     if (passwordRecover.success) {
       responseContent.success = true;
-      responseContent.message = 'Your account was successfully activated!';
+      responseContent.message = 'Your account was successfully updated!';
       return response.status(200).json(responseContent);
     }
 
