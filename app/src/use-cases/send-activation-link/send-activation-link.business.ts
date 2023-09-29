@@ -7,13 +7,13 @@ export class SendActivationLink {
     private readonly TokenGeneratorEntity: TokenGenerator,
   ) { }
 
-  public async execute(uuid: string)
+  public async execute(email: string)
     : Promise<SendActivationLinkDTO> {
     logger.info('Initializing "send-activation-link" service/use-case...');
     const response: SendActivationLinkDTO = { success: false };
 
-    logger.info(`Generating activation token to user with uuid "${uuid}"...`);
-    const token = await this.TokenGeneratorEntity.generate(uuid)
+    logger.info(`Generating activation token to user with email "${email}"...`);
+    const token = await this.TokenGeneratorEntity.generate(email)
       .catch((error) => {
         response.success = false;
         response.error = error;

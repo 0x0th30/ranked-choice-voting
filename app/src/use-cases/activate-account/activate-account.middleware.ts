@@ -15,7 +15,7 @@ export class ActivateAccountMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: ActivateAccountHTTPResponse = { success: false };
 
-    const uuid = (request as any).user as string;
+    const { user } = request as any;
     const { token } = request.params;
     if (!token) {
       responseContent.success = false;
@@ -23,11 +23,11 @@ export class ActivateAccountMiddleware implements Middleware {
       return response.status(400).json(responseContent);
     }
 
-    const activateAccount = await ActivateAccountBusiness.execute(uuid, token);
+    const activateAccount = await ActivateAccountBusiness.execute(user.uuid, token);
 
     if (activateAccount.success) {
       responseContent.success = true;
-      responseContent.message = 'User is successfully auth!';
+      responseContent.message = 'Your account was successfully activated!';
       return response.status(200).json(responseContent);
     }
 

@@ -39,12 +39,12 @@ export class AuthUser {
     }
     logger.info(`Credentials to user with email "${email}" was successfully validated.`);
 
-    // if (user.state === 'INACTIVE') {
-    //   logger.error(`Account registered with email "${email}" is currently inactive!`);
-    //   response.success = false;
-    //   response.error = new InactiveUser(user.uuid);
-    //   return response;
-    // }
+    if (user.state === 'INACTIVE') {
+      logger.error(`Account registered with email "${email}" is currently inactive!`);
+      response.success = false;
+      response.error = new InactiveUser(user.uuid);
+      return response;
+    }
 
     logger.info(`Generating JWT token to user with email "${email}"...`);
     const TOKEN_SECRET = process.env['TOKEN_SECRET'] as string;

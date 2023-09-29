@@ -6,9 +6,7 @@ export class TokenGenerator {
     private readonly PrismaManager: PrismaClient,
   ) {}
 
-  public async generate(
-    requesterUUID: string,
-  ): Promise<string> {
+  public async generate(email: string): Promise<string> {
     const token = crypto.randomBytes(64).toString('hex');
 
     const status = 'UNUSED';
@@ -19,7 +17,7 @@ export class TokenGenerator {
         token,
         status,
         expiry_time: expiryTime,
-        user_uuid: requesterUUID,
+        user_uuid: ,
       },
     });
 

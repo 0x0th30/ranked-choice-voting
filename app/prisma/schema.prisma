@@ -66,8 +66,8 @@ model Token {
   token       String        @id @unique
   status      TokenValidity
   expiry_time DateTime
-  user        User          @relation(fields: [user_uuid], references: [uuid])
-  user_uuid   String
+  user        User          @relation(fields: [user_email], references: [email])
+  user_email  String
   created_at  DateTime      @default(now())
   updated_at  DateTime      @updatedAt()
 }

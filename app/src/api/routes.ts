@@ -26,15 +26,7 @@ router.post(
 
 router.post('/users/register', new RegisterUserMiddleware().handle);
 router.post('/users/auth', new AuthUserMiddleware().handle);
-router.http://{{host}}:{{port}}/api/v1/users/register(
-  '/users/send-activation-link',
-  new CheckAuthMiddleware().handle,
-  new SendActivationLinkMiddleware().handle,
-);
-router.get(
-  '/users/:token/activate-account',
-  new CheckAuthMiddleware().handle,
-  new ActivateAccountMiddleware().handle,
-);
+router.get('/users/send-activation-link', new SendActivationLinkMiddleware().handle);
+router.get('/users/:token/activate-account', new ActivateAccountMiddleware().handle);
 
 export { router };

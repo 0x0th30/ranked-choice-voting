@@ -13,13 +13,14 @@ export class SendActivationLinkMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: SendActivationLinkHTTPResponse = { success: false };
 
-    const uuid = (request as any).user as string;
+    const { user } = request as any;
 
-    const sendActivationLink = await SendActivationLinkBusiness.execute(uuid);
+    const sendActivationLink = await SendActivationLinkBusiness.execute(user.uuid);
 
     if (sendActivationLink.success) {
       responseContent.success = true;
-      responseContent.message = 'User is successfully auth!';
+      responseContent.message = 'Activation link was successfully sent! Check your '
+        + 'email box!';
       return response.status(200).json(responseContent);
     }
 
