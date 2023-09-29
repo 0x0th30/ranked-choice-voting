@@ -8,6 +8,8 @@ import { AuthUserMiddleware } from '@use-cases/auth-user/auth-user.middleware';
 import { CheckAuthMiddleware } from '@use-cases/check-auth/check-auth.middleware';
 import { ActivateAccountMiddleware }
   from '@use-cases/activate-account/activate-account.middleware';
+import { SendActivationLinkMiddleware }
+  from '@use-cases/send-activation-link/send-activation-link.middleware';
 
 const router = Router();
 
@@ -24,7 +26,12 @@ router.post(
 
 router.post('/users/register', new RegisterUserMiddleware().handle);
 router.post('/users/auth', new AuthUserMiddleware().handle);
-router.post(
+router.http://{{host}}:{{port}}/api/v1/users/register(
+  '/users/send-activation-link',
+  new CheckAuthMiddleware().handle,
+  new SendActivationLinkMiddleware().handle,
+);
+router.get(
   '/users/:token/activate-account',
   new CheckAuthMiddleware().handle,
   new ActivateAccountMiddleware().handle,
