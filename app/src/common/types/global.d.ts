@@ -8,6 +8,13 @@ declare global {
     uuid: string,
     sequence: Array<string>,
   }
+
+  type EmailToBeSent = {
+    email: string,
+    cc: Array<string>,
+    subject: string,
+    body: string,
+  }
 }
 
 export {};
