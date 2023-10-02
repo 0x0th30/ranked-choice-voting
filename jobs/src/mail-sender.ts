@@ -1,19 +1,16 @@
 import amqp from 'amqplib/callback_api';
+import nodemailer from 'nodemailer';
 import { logger } from '@utils/logger';
-import { PrismaClient } from '@prisma/client';
-import { RedisClient } from '@loaders/redis';
-import { RedisClientType } from '@redis/client';
-import { WriteThrough } from './repositories/write-through';
 
-export class VoteProcessor {
+export class MailSender {
   private readonly TIMEOUT_IN_MS = 5000;
 
-  private readonly QUEUE_NAME = 'vote';
+  private readonly QUEUE_NAME = 'email';
 
   private readonly RABBITMQ_URI = process.env['RABBITMQ_URI']!;
 
   constructor(
-    private readonly WriteThroughManager: WriteThrough,
+    private readonly MailTransporter: nodemailer.Transporter,
   ) {}
 
   public async start(): Promise<void> {
@@ -21,7 +18,7 @@ export class VoteProcessor {
     amqp.connect(this.RABBITMQ_URI, async (connectionError, connection) => {
       if (connectionError) {
         logger.error('Cannot connect RabbitMQ client, trying again in '
-          + `${this.TIMEOUT_IN_MS}ms.... Details: "${connectionError}"`);
+          + `${this.TIMEOUT_IN_MS}ms... Details: ${connectionError}`);
         await new Promise((resolve) => setTimeout(resolve, this.TIMEOUT_IN_MS));
         return this.start();
       }
@@ -30,7 +27,7 @@ export class VoteProcessor {
         + ' Creating channel...');
       connection.createChannel((channelError, channel) => {
         if (channelError) {
-          logger.error(`Cannot create channel. Details: "${connectionError}"`);
+          logger.error(`Cannot create channel. Details: ${channelError}`);
           throw channelError;
         }
 
@@ -40,17 +37,19 @@ export class VoteProcessor {
           logger.info(`Successfully connected with "${this.QUEUE_NAME}" queue.`);
 
           if (!message) throw new Error();
-          const vote = JSON.parse(message.content.toString());
+          const email = JSON.parse(message.content.toString());
 
-          await this.WriteThroughManager.writeVote(vote.uuid, vote.sequence);
+          logger.info(`Sending mail to "${email.email}"...`);
+          await this.MailTransporter.sendMail({ to: email.email, subject: email.subject })
+            .then((messageId) => {
+              logger.info(`Email was successfully sent! Message id: ${messageId}.`);
+            })
+            .catch((error) => {
+              logger.error(`Cannot send mail. Details: ${error}`);
+              throw error;
+            });
         });
       });
     });
   }
 }
-
-const worker = new VoteProcessor(
-  new WriteThrough(new PrismaClient(), RedisClient as RedisClientType),
-);
-
-worker.start();
