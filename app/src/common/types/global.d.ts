@@ -11,7 +11,6 @@ declare global {
 
   type EmailToBeSent = {
     email: string,
-    cc: Array<string>,
     subject: string,
     body: string,
   }

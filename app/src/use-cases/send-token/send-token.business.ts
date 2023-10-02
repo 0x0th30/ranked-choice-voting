@@ -26,7 +26,7 @@ export class SendToken {
 
     if (token) {
       const emailToBeSent: EmailToBeSent = {
-        email, cc: [], subject: 'foo', body: 'foo',
+        email, subject: 'foo', body: 'foo',
       };
 
       await this.RabbitMQManager.sendMessageToQueue(this.QUEUE_NAME, emailToBeSent)
