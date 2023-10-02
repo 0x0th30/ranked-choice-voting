@@ -27,7 +27,7 @@ router.post(
 
 router.post('/users/register', new RegisterUserMiddleware().handle);
 router.post('/users/auth', new AuthUserMiddleware().handle);
-router.post('/users/send-token', new SendTokenMiddleware().handle);
+router.post('/users/:reason/send-token', new SendTokenMiddleware().handle);
 router.post('/users/:token/activate-account', new ActivateAccountMiddleware().handle);
 router.post('/users/:token/password-recover', new PasswordRecoverMiddleware().handle);
 

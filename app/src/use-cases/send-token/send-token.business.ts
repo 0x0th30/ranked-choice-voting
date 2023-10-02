@@ -3,8 +3,6 @@ import { RabbitMQ } from '@loaders/rabbitmq';
 import { logger } from '@utils/logger';
 import { SendTokenDTO } from './send-token.d';
 
-type TokenReason = 'password_recover' | 'account_activation';
-
 export class SendToken {
   private readonly QUEUE_NAME = 'email';
 
@@ -17,7 +15,7 @@ export class SendToken {
     logger.info('Initializing "send-token" service/use-case...');
     const response: SendTokenDTO = { success: false };
 
-    logger.info(`Generating "${reason}" token to user with email "${email}"...`);
+    logger.info(`Generating "${reason}" token to "${email}"...`);
     const token = await this.TokenGeneratorEntity.generate(email)
       .catch((error) => {
         response.success = false;
@@ -29,6 +27,7 @@ export class SendToken {
         email, subject: 'foo', body: 'foo',
       };
 
+      logger.info(`Sending "${reason}" token to "${email}"...`);
       await this.RabbitMQManager.sendMessageToQueue(this.QUEUE_NAME, emailToBeSent)
         .then(() => { response.success = true; })
         .catch((error) => {

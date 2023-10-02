@@ -1,8 +1,5 @@
 import amqp from 'amqplib/callback_api';
 import { logger } from '@utils/logger';
-import { PrismaClient } from '@prisma/client';
-import { RedisClient } from '@loaders/redis';
-import { RedisClientType } from '@redis/client';
 import { WriteThrough } from './repositories/write-through';
 
 export class VoteProcessor {
@@ -50,9 +47,3 @@ export class VoteProcessor {
     });
   }
 }
-
-const worker = new VoteProcessor(
-  new WriteThrough(new PrismaClient(), RedisClient as RedisClientType),
-);
-
-worker.start();

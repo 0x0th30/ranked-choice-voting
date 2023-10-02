@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { PrismaClient } from '@prisma/client';
+import { NotFoundUserUsingEmail } from '@errors/auth-error';
 
 export class TokenGenerator {
   constructor(
@@ -7,6 +8,9 @@ export class TokenGenerator {
   ) {}
 
   public async generate(email: string): Promise<string> {
+    const user = await this.PrismaManager.user.findFirst({ where: { email } });
+    if (!user) throw new NotFoundUserUsingEmail(email);
+
     const token = crypto.randomBytes(64).toString('hex');
 
     const status = 'UNUSED';

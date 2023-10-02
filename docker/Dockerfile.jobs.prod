@@ -14,4 +14,4 @@ COPY --from=builder --chown=node:node /app/package.json .
 RUN yarn install --production=true
 COPY --from=builder --chown=node:node /app/prisma .
 COPY --from=builder --chown=node:node /app/dist dist
-CMD [ "yarn", "start:prod:vote-processor" ]
+CMD [ "yarn", "start:prod" ]

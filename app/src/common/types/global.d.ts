@@ -14,6 +14,8 @@ declare global {
     subject: string,
     body: string,
   }
+
+  type TokenReason = 'password-recover' | 'account-activation';
 }
 
 export {};
