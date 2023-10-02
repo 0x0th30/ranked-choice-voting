@@ -19,7 +19,7 @@ export class MailSender {
       if (connectionError) {
         logger.error('Cannot connect RabbitMQ client, trying again in '
           + `${this.TIMEOUT_IN_MS}ms... Details: ${connectionError}`);
-        await new Promise((resolve) => setTimeout(resolve, this.TIMEOUT_IN_MS));
+        await new Promise((resolve) => { setTimeout(resolve, this.TIMEOUT_IN_MS); });
         return this.start();
       }
 
@@ -50,6 +50,8 @@ export class MailSender {
             });
         });
       });
+
+      return true;
     });
   }
 }
