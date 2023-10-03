@@ -16,11 +16,10 @@ export class SendTokenMiddleware implements Middleware {
   public async handle(request: Request, response: Response): Promise<Response> {
     const responseContent: SendTokenHTTPResponse = { success: false };
 
-    const { reason } = request.params;
-    const { email } = request.body;
+    const { email, reason } = request.params;
     if (!email) {
       responseContent.success = false;
-      responseContent.message = 'Missing "email" field in request body!';
+      responseContent.message = 'Missing "email" parameter!';
       return response.status(400).json(responseContent);
     }
 

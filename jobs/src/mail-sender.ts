@@ -42,8 +42,8 @@ export class MailSender {
           logger.info(`Sending mail to "${email.email}"...`);
           await this.MailTransporter
             .sendMail({ to: email.email, subject: email.subject, html: email.body })
-            .then((messageId) => {
-              logger.info(`Email was successfully sent! Message id: ${messageId}.`);
+            .then((value) => {
+              logger.info(`Email was successfully sent! Message id: ${value.messageId}.`);
             })
             .catch((error) => {
               logger.error(`Cannot send mail. Details: ${error}`);
