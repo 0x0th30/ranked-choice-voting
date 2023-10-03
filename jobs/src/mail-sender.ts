@@ -40,7 +40,8 @@ export class MailSender {
           const email = JSON.parse(message.content.toString());
 
           logger.info(`Sending mail to "${email.email}"...`);
-          await this.MailTransporter.sendMail({ to: email.email, subject: email.subject })
+          await this.MailTransporter
+            .sendMail({ to: email.email, subject: email.subject, html: email.body })
             .then((messageId) => {
               logger.info(`Email was successfully sent! Message id: ${messageId}.`);
             })

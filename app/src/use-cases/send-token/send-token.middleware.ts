@@ -25,7 +25,6 @@ export class SendTokenMiddleware implements Middleware {
     }
 
     const sendToken = await SendTokenBusiness.execute(email, reason as TokenReason);
-    console.log(sendToken);
 
     if (sendToken.success) {
       responseContent.success = true;
