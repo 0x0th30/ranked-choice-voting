@@ -1,5 +1,6 @@
 import { LazyLoader } from '@repositories/lazy-loader';
-import { ClosedVoting, InvalidVotingOptions, VotingOptionsSizeMismatch }
+import { ClosedVoting } from '@errors/voting-error';
+import { InvalidVotingOptions, VotingOptionsSizeMismatch }
   from '@errors/vote-validation-error';
 import { logger } from '@utils/logger';
 

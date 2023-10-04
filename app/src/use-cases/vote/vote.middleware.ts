@@ -6,10 +6,9 @@ import { VoteValidator } from '@entities/vote-validator';
 import { RabbitMQ } from '@loaders/rabbitmq';
 import { LazyLoader } from '@repositories/lazy-loader';
 import { RedisClient } from '@loaders/redis';
+import { ClosedVoting, NotFoundVoting } from '@errors/voting-error';
 import {
-  ClosedVoting,
   InvalidVotingOptions,
-  NotFoundVoting,
   VotingOptionsSizeMismatch,
 } from '@errors/vote-validation-error';
 import { Vote } from './vote.business';

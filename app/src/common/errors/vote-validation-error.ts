@@ -1,35 +1,9 @@
 /* eslint-disable max-classes-per-file */
 import { ApplicationError } from '@errors/application-error';
 
-export abstract class VotingError extends ApplicationError {}
+export abstract class VoteError extends ApplicationError {}
 
-export class NotFoundVoting extends VotingError {
-  public uuid: string;
-
-  constructor(uuid: string) {
-    super();
-    this.name = super.name;
-    this.stack = super.stack;
-    this.message = `"${uuid}" references a not found voting.`;
-
-    this.uuid = uuid;
-  }
-}
-
-export class ClosedVoting extends VotingError {
-  public uuid: string;
-
-  constructor(uuid: string) {
-    super();
-    this.name = super.name;
-    this.stack = super.stack;
-    this.message = `"${uuid}" references a closed voting.`;
-
-    this.uuid = uuid;
-  }
-}
-
-export class VotingOptionsSizeMismatch extends VotingError {
+export class VotingOptionsSizeMismatch extends VoteError {
   public uuid: string;
 
   public expectedSize: number;
@@ -57,7 +31,7 @@ export class VotingOptionsSizeMismatch extends VotingError {
   }
 }
 
-export class InvalidVotingOptions extends VotingError {
+export class InvalidVotingOptions extends VoteError {
   public uuid: string;
 
   public validOptions: Array<string>;
