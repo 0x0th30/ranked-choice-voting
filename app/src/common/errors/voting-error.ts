@@ -44,3 +44,19 @@ export class VotingExceedingOptionsLimit extends VotingError {
     this.optionsLength = optionsLength;
   }
 }
+
+export class NotAuthorClosingVoting extends VotingError {
+  public userUUID: string;
+
+  public votingUUID: string;
+
+  constructor(userUUID: string, votingUUID: string) {
+    super();
+    this.name = super.name;
+    this.stack = super.stack;
+    this.message = `User "${userUUID}" trying to close not owned voting "${votingUUID}".`;
+
+    this.userUUID = userUUID;
+    this.votingUUID = votingUUID;
+  }
+}
