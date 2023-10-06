@@ -3,12 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient, UserState } from '@prisma/client';
 import { logger } from '@utils/logger';
 import { UserValidator } from '@entities/user-validator';
+import { SendToken } from '@use-cases/send-token/send-token.business';
 import { RegisterUserDTO } from './register-user.d';
 
 export class RegisterUser {
   constructor(
     private readonly PrismaManager: PrismaClient,
     private readonly UserValidatorEntity: UserValidator,
+    private readonly SendTokenBusiness: SendToken,
   ) {}
 
   public async execute(name: string, email: string, password: string)
@@ -50,8 +52,17 @@ export class RegisterUser {
 
       if (user) {
         logger.info(`User "${name}" was successfully registered under id "${uuid}"!`);
-        response.success = true;
-        response.data = { uuid };
+
+        await this.SendTokenBusiness.execute(email, 'account-activation')
+          .then((value) => {
+            if (value.success) {
+              response.success = true;
+              response.data = { uuid };
+            } else {
+              response.success = false;
+              response.error = value.error;
+            }
+          });
       }
     }
 

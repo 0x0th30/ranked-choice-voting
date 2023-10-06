@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 import { Middleware } from '@contracts/middleware';
 import { CheckAuthHTTPResponse } from './check-auth.d';
 

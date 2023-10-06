@@ -3,12 +3,19 @@ import { PrismaClient } from '@prisma/client';
 import { Middleware } from '@contracts/middleware';
 import { UserValidator } from '@entities/user-validator';
 import { AlreadyRegisteredEmail } from '@errors/user-validation-error';
+import { SendToken } from '@use-cases/send-token/send-token.business';
+import { TokenGenerator } from '@entities/token-generator';
+import { RabbitMQ } from '@loaders/rabbitmq';
 import { RegisterUserHTTPResponse } from './register-user.d';
 import { RegisterUser } from './register-user.business';
 
 const RegisterUserBusiness = new RegisterUser(
   new PrismaClient(),
   new UserValidator(new PrismaClient()),
+  new SendToken(
+    new TokenGenerator(new PrismaClient()),
+    new RabbitMQ(),
+  ),
 );
 
 export class RegisterUserMiddleware implements Middleware {
@@ -36,7 +43,7 @@ export class RegisterUserMiddleware implements Middleware {
       responseContent.success = false;
       responseContent.message = `Email "${registerUser.error.email}" it's already `
       + 'registered by another user!';
-      return response.json(400).json(responseContent);
+      return response.status(400).json(responseContent);
     }
 
     responseContent.success = false;
