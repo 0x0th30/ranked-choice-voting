@@ -33,4 +33,18 @@ export class WriteThrough {
 
     return voting;
   }
+
+  public async updateVotingState(uuid: string, state: VotingState): Promise<any> {
+    logger.info(`Caching voting state to voting with uuid "${uuid}"...`);
+    const votingStateKey = `${uuid}:state`;
+    await this.RedisManager.set(votingStateKey, state);
+
+    logger.info(`Updating voting with uuid "${uuid}" state in database...`);
+    const voting = await this.PrismaManager.voting.update({
+      where: { uuid },
+      data: { state },
+    });
+
+    return voting;
+  }
 }

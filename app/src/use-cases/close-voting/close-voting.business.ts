@@ -1,10 +1,12 @@
 import { NotAuthorClosingVoting, NotFoundVoting } from '@errors/voting-error';
 import { PrismaClient } from '@prisma/client';
+import { WriteThrough } from '@repositories/write-through';
 import { logger } from '@utils/logger';
 import { CloseVotingDTO } from './close-voting.d';
 
 export class CloseVoting {
   constructor(
+    private readonly WriteThroughManager: WriteThrough,
     private readonly PrismaManager: PrismaClient,
   ) {}
 
@@ -30,8 +32,8 @@ export class CloseVoting {
     }
 
     logger.info(`Closing voting with uuid "${votingUUID}"...`);
-    await this.PrismaManager.voting
-      .update({ where: { uuid: votingUUID }, data: { state: 'CLOSED' } })
+    await this.WriteThroughManager
+      .updateVotingState(votingUUID, 'CLOSED')
       .then(() => {
         response.success = true;
         response.data = { uuid: votingUUID };
