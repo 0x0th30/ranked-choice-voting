@@ -39,6 +39,8 @@ services:
   redis:
     container_name: ranked-choice-voting-redis
     image: redis
+    volumes:
+      - ../volumes/redis/data:/data
     env_file:
       - ../config/redis.env
     ports:
@@ -55,6 +57,8 @@ services:
   postgres:
     container_name: ranked-choice-voting-postgres
     image: postgres
+    volumes:
+      - ../volumes/postgres/data:/var/lib/postgresql/data
     env_file:
       - ../config/postgres.env
     ports:
