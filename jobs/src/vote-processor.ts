@@ -39,7 +39,11 @@ export class VoteProcessor {
           if (!message) throw new Error();
           const vote = JSON.parse(message.content.toString());
 
-          await this.WriteThroughManager.writeVote(vote.uuid, vote.sequence);
+          await this.WriteThroughManager.writeVote(
+            vote.uuid,
+            vote.userUUID,
+            vote.sequence,
+          );
         });
       });
 

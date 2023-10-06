@@ -8,7 +8,8 @@ export class WriteThrough {
     private readonly RedisManager: RedisClientType,
   ) {}
 
-  public async writeVote(votingUUID: string, sequence: Array<string>): Promise<Vote> {
+  public async writeVote(votingUUID: string, userUUID:string, sequence: Array<string>)
+  : Promise<Vote> {
     logger.info(`Caching vote to voting "${votingUUID}"...`);
     const key = `${votingUUID}:options`;
     const value = sequence.join(',');
@@ -16,7 +17,7 @@ export class WriteThrough {
 
     logger.info(`Storing vote to voting "${votingUUID}" in database...`);
     const vote = await this.PrismaManager.vote.create({
-      data: { voting_uuid: votingUUID, vote_sequence: sequence },
+      data: { voting_uuid: votingUUID, user_uuid: userUUID, vote_sequence: sequence },
     });
 
     return vote;
