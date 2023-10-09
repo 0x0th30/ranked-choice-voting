@@ -37,6 +37,20 @@ export class ExtractResults {
         return false;
       });
 
+    if (!votes) return response;
+
+    const scorePerOptions: { [key: string]: number } = {};
+    voting.available_options.forEach((option) => { scorePerOptions[option] = 0; });
+
+    votes.forEach((vote) => {
+      const reversedOptionList = vote.vote_sequence.reverse();
+      reversedOptionList.forEach((option) => {
+        scorePerOptions[option] += reversedOptionList.indexOf(option) + 1;
+      });
+    });
+
+    console.log(scorePerOptions);
+
     logger.info('Finishing "extract-results" service/use-case.');
     return response;
   }

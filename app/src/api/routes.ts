@@ -12,6 +12,8 @@ import { SendTokenMiddleware } from '@use-cases/send-token/send-token.middleware
 import { PasswordRecoverMiddleware }
   from '@use-cases/password-recover/password-recover.middleware';
 import { CloseVotingMiddleware } from '@use-cases/close-voting/close-voting.middleware';
+import { ExtractResultsMiddleware }
+  from '@use-cases/extract-results/extract-results.middleware';
 
 const router = Router();
 
@@ -29,6 +31,11 @@ router.post(
   '/votings/:uuid/close',
   new CheckAuthMiddleware().handle,
   new CloseVotingMiddleware().handle,
+);
+router.get(
+  '/votings/:uuid/results',
+  new CheckAuthMiddleware().handle,
+  new ExtractResultsMiddleware().handle,
 );
 
 router.post('/users/register', new RegisterUserMiddleware().handle);
