@@ -54,3 +54,22 @@ export class InvalidVotingOptions extends VoteError {
     this.invalidOptions = invalidOptions;
   }
 }
+
+export class NonUniqueVotePerUser extends VoteError {
+  public userUUID: string;
+
+  public votingUUID: string;
+
+  constructor(
+    userUUID: string,
+    votingUUID: string,
+  ) {
+    super();
+    this.name = super.name;
+    this.stack = super.stack;
+    this.message = `Non users's "${userUUID}" unique vote to voting "${votingUUID}".`;
+
+    this.userUUID = userUUID;
+    this.votingUUID = votingUUID;
+  }
+}

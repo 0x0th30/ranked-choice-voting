@@ -11,8 +11,8 @@ export class WriteThrough {
   public async writeVote(votingUUID: string, userUUID:string, sequence: Array<string>)
   : Promise<Vote> {
     logger.info(`Caching vote to voting "${votingUUID}"...`);
-    const key = `${votingUUID}:options`;
-    const value = sequence.join(',');
+    const key = `${votingUUID}:${votingUUID}:vote`;
+    const value = userUUID;
     await this.RedisManager.set(key, value);
 
     logger.info(`Storing vote to voting "${votingUUID}" in database...`);

@@ -1,4 +1,4 @@
-import { NotFoundVoting } from '@errors/vote-validation-error';
+import { NotFoundVoting } from '@errors/voting-error';
 import { PrismaClient, VotingState } from '@prisma/client';
 import { RedisClientType } from '@redis/client';
 import { logger } from '@utils/logger';
@@ -8,6 +8,33 @@ export class LazyLoader {
     private readonly PrismaManager: PrismaClient,
     private readonly RedisManager: RedisClientType,
   ) {}
+
+  public async isUniqueVotePerUser(votingUUID: string, userUUID: string)
+  : Promise<boolean> {
+    const voteKey = `${userUUID}:${votingUUID}:vote`;
+    const cachedVoteExists = await this.RedisManager.get(voteKey)
+      .then((value) => {
+        if (value) {
+          logger.info(`Found users's "${userUUID}" vote to voting "${votingUUID}"...`);
+          return true;
+        }
+        return false;
+      });
+    if (cachedVoteExists) return false;
+
+    const storedVoteExists = await this.PrismaManager.vote
+      .findFirst({ where: { voting_uuid: votingUUID, user_uuid: userUUID } })
+      .then((value) => {
+        if (value) {
+          logger.info(`Found users's "${userUUID}" vote to voting "${votingUUID}"...`);
+          return true;
+        }
+        return false;
+      });
+    if (storedVoteExists) return false;
+
+    return true;
+  }
 
   public async readVotingState(uuid: string): Promise<VotingState> {
     const votingStateKey = `${uuid}:state`;

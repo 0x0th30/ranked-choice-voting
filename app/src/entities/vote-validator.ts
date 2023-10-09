@@ -1,6 +1,6 @@
 import { LazyLoader } from '@repositories/lazy-loader';
 import { ClosedVoting } from '@errors/voting-error';
-import { InvalidVotingOptions, VotingOptionsSizeMismatch }
+import { InvalidVotingOptions, NonUniqueVotePerUser, VotingOptionsSizeMismatch }
   from '@errors/vote-validation-error';
 import { logger } from '@utils/logger';
 
@@ -8,6 +8,14 @@ export class VoteValidator {
   constructor(
     private readonly LazyLoaderManager: LazyLoader,
   ) {}
+
+  private async checkUniqueVote(votingUUID: string, userUUID: string): Promise<boolean> {
+    logger.info(`Requesting "${votingUUID}" votes to lazy-loader...`);
+    const uniqueVote = await this.LazyLoaderManager
+      .isUniqueVotePerUser(votingUUID, userUUID);
+    if (uniqueVote) return true;
+    throw new NonUniqueVotePerUser(userUUID, votingUUID);
+  }
 
   private async checkVotingState(uuid: string): Promise<boolean> {
     logger.info(`Requesting "${uuid}" voting state to lazy-loader...`);
@@ -55,6 +63,7 @@ export class VoteValidator {
   public async validateVote(vote: VoteToBeCreated): Promise<boolean> {
     logger.info('Validating received vote...');
     await this.checkVotingState(vote.uuid);
+    await this.checkUniqueVote(vote.uuid, vote.userUUID);
     await this.checkVotingSequence(vote.uuid, vote.sequence);
 
     logger.info('Received vote is valid!');

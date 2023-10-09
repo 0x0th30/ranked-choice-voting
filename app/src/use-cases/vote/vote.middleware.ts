@@ -9,6 +9,7 @@ import { RedisClient } from '@loaders/redis';
 import { ClosedVoting, NotFoundVoting } from '@errors/voting-error';
 import {
   InvalidVotingOptions,
+  NonUniqueVotePerUser,
   VotingOptionsSizeMismatch,
 } from '@errors/vote-validation-error';
 import { Vote } from './vote.business';
@@ -75,6 +76,13 @@ export class VoteMiddleware implements Middleware {
       responseContent.success = false;
       responseContent.message = `Cannot found voting "${vote.uuid}"!`;
       return response.status(404).json(responseContent);
+    }
+
+    if (createVote.error instanceof NonUniqueVotePerUser) {
+      responseContent.success = false;
+      responseContent.message = `User "${vote.userUUID}" already send your vote to `
+        + `voting "${vote.uuid}"!`;
+      return response.status(422).json(responseContent);
     }
 
     responseContent.success = false;
