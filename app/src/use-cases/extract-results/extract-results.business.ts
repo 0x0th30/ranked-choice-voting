@@ -36,20 +36,22 @@ export class ExtractResults {
         if (value) return value;
         return false;
       });
-
     if (!votes) return response;
 
-    const scorePerOptions: { [key: string]: number } = {};
-    voting.available_options.forEach((option) => { scorePerOptions[option] = 0; });
+    const voteCount: { [key: string]: number } = {};
+    voting.available_options.forEach((option) => { voteCount[option] = 0; });
 
     votes.forEach((vote) => {
       const reversedOptionList = vote.vote_sequence.reverse();
       reversedOptionList.forEach((option) => {
-        scorePerOptions[option] += reversedOptionList.indexOf(option) + 1;
+        const individualScore = (reversedOptionList.indexOf(option) + 1);
+        voteCount[option] += individualScore;
       });
     });
 
-    console.log(scorePerOptions);
+    // const winner = Object.entries(voteCount)
+
+    console.log(voteCount);
 
     logger.info('Finishing "extract-results" service/use-case.');
     return response;
