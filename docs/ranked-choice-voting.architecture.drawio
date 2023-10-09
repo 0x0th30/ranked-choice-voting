@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-09-29T08:16:30.681Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="PYmOv9G7ZaDl-ZjuQLhG" version="21.6.8" type="device">
+<mxfile host="Electron" modified="2023-10-09T07:32:38.137Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="LSYexob7U9gLcUb8k6RV" version="21.6.8" type="device">
   <diagram name="Página-1" id="Página-1">
-    <mxGraphModel dx="252" dy="-702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1464" dy="-264" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -101,14 +101,6 @@
             <Array as="points">
               <mxPoint x="1180" y="2260" />
               <mxPoint x="1490" y="2260" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="FQcmUWJR3kuGPPNdoMc6-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="b3ruvdXfxAipYuuYTNX5-55" target="FQcmUWJR3kuGPPNdoMc6-24" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1160" y="2040" />
-              <mxPoint x="1160" y="2040" />
             </Array>
           </mxGeometry>
         </mxCell>
