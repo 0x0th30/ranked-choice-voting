@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { RedisClient } from '@loaders/redis';
 import { WriteThrough } from '@repositories/write-through';
 import { Middleware } from '@contracts/middleware';
-import { NotAuthorClosingVoting, NotFoundVoting } from '@errors/voting-error';
+import { UnauthorizedVotingOperation, NotFoundVoting } from '@errors/voting-error';
 import { CloseVoting } from './close-voting.business';
 import { CloseVotingHTTPResponse } from './close-voting.d';
 
@@ -27,7 +27,7 @@ export class CloseVotingMiddleware implements Middleware {
       return response.status(200).json(responseContent);
     }
 
-    if (closeVoting.error instanceof NotAuthorClosingVoting) {
+    if (closeVoting.error instanceof UnauthorizedVotingOperation) {
       responseContent.success = false;
       responseContent.message = 'Only voting author can close it!';
       return response.status(401).json(responseContent);

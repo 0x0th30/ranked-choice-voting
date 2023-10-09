@@ -45,7 +45,7 @@ export class VotingExceedingOptionsLimit extends VotingError {
   }
 }
 
-export class NotAuthorClosingVoting extends VotingError {
+export class UnauthorizedVotingOperation extends VotingError {
   public userUUID: string;
 
   public votingUUID: string;
@@ -54,7 +54,7 @@ export class NotAuthorClosingVoting extends VotingError {
     super();
     this.name = super.name;
     this.stack = super.stack;
-    this.message = `User "${userUUID}" trying to close not owned voting "${votingUUID}".`;
+    this.message = `Non authorized operation to user "${userUUID}"!`;
 
     this.userUUID = userUUID;
     this.votingUUID = votingUUID;

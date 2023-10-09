@@ -1,4 +1,4 @@
-import { NotAuthorClosingVoting, NotFoundVoting } from '@errors/voting-error';
+import { UnauthorizedVotingOperation, NotFoundVoting } from '@errors/voting-error';
 import { PrismaClient } from '@prisma/client';
 import { WriteThrough } from '@repositories/write-through';
 import { logger } from '@utils/logger';
@@ -27,7 +27,7 @@ export class CloseVoting {
     const isUserVotingCreator = (voting.author_uuid === userUUID);
     if (!isUserVotingCreator) {
       response.success = false;
-      response.error = new NotAuthorClosingVoting(userUUID, votingUUID);
+      response.error = new UnauthorizedVotingOperation(userUUID, votingUUID);
       return response;
     }
 
