@@ -43,8 +43,7 @@ export class VoteMiddleware implements Middleware {
 
     if (createVote.success) {
       responseContent.success = true;
-      responseContent.message = 'Vote was successfully processed! You\'ll receive an '
-        + 'confirmation email when it be stored.';
+      responseContent.message = 'Vote was successfully processed!';
       return response.status(202).json(responseContent);
     }
 
