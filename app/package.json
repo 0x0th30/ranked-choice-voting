@@ -1,6 +1,5 @@
 {
   "devDependencies": {
-    "@apideck/postman-to-k6": "^1.8.9",
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.2",
     "@babel/parser": "^7.20.3",
