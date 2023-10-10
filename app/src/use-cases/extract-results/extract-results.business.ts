@@ -58,12 +58,18 @@ export class ExtractResults {
       .then((value) => {
         if (value) return value;
         return false;
+      })
+      .catch((error) => {
+        response.success = false;
+        response.error = error;
       });
     if (!votes) return response;
 
+    logger.info(`Starting vote counting to voting "${votingUUID}"...`);
     const voteCount: { [key: string]: number } = {};
     voting.available_options.forEach((option) => { voteCount[option] = 0; });
 
+    logger.info(`Count score to each voting "${votingUUID}" option...`);
     votes.forEach((vote) => {
       const reversedOptionList = vote.vote_sequence.reverse();
       reversedOptionList.forEach((option) => {
@@ -72,6 +78,7 @@ export class ExtractResults {
       });
     });
 
+    logger.info(`Selecting winner to voting "${votingUUID}"...`);
     const winner = this.findWinner(voteCount);
 
     response.success = true;
