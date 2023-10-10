@@ -8,10 +8,11 @@ export class ExtractResults {
     private readonly PrismaManager: PrismaClient,
   ) {}
 
-  private findWinner(voteCount: { [key: string]: number }): string {
+  private findMostVotedOption(voteCount: { [key: string]: number }): string {
     const voteEntries = Object.entries(voteCount);
 
     const numberOfVotes = voteEntries.length;
+    const lastIndex = numberOfVotes - 1;
     let indexCounter = 1;
 
     while (indexCounter < numberOfVotes) {
@@ -27,8 +28,8 @@ export class ExtractResults {
       indexCounter += 1;
     }
 
-    const winner = voteEntries.reverse()[0][0];
-    return winner;
+    const mostVotedOption = voteEntries[lastIndex][0];
+    return mostVotedOption;
   }
 
   public async execute(userUUID: string, votingUUID: string): Promise<ExtractResultsDTO> {
@@ -79,7 +80,7 @@ export class ExtractResults {
     });
 
     logger.info(`Selecting winner to voting "${votingUUID}"...`);
-    const winner = this.findWinner(voteCount);
+    const winner = this.findMostVotedOption(voteCount);
 
     response.success = true;
     response.data = { winner, voteCount };
