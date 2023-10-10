@@ -24,12 +24,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/users/auth",
+							"raw": "http://localhost:3000/api/v1/users/auth",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
@@ -47,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"theo\",\n    \"email\": \"theodorotheodore@gmail.com\",\n    \"password\": \"rockyou.txt\"\n}",
+							"raw": "{\n    \"name\": \"theo\",\n    \"email\": \"theodorotheodore@gmail.combr\",\n    \"password\": \"rockyou.txt\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -55,12 +55,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/users/register",
+							"raw": "http://localhost:3000/api/v1/users/register",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
@@ -89,12 +89,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/users/theodorotheodore@gmail.com/account-activation/send-token",
+							"raw": "http://localhost:3000/api/v1/users/theodorotheodore@gmail.com/account-activation/send-token",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
@@ -125,12 +125,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/users/<user>/<token>/activate-account",
+							"raw": "http://localhost:3000/api/v1/users/<user>/<token>/activate-account",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
@@ -158,12 +158,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/users/<token>/password-recover",
+							"raw": "http://localhost:3000/api/v1/users/<token>/password-recover",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
@@ -187,7 +187,45 @@
 						"header": [
 							{
 								"key": "auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMjliMTE5ZTQtNmI0Mi00N2UyLWEyNzYtN2ViYTJkMjg2NmUwIiwiaWF0IjoxNjk1NjI3MTUzfQ.kv09Dh6XkPnJGiIacBsxU1SDR8P_WrgxfmvEmjCoHQg",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNjUxYjIzMjUtMTAwNC00MWQxLWIxODEtODA5YzczODZmODM5IiwiaWF0IjoxNjk2NTc3ODY1fQ.VwCW2E4f6NUsRyq_N1S_e8WhSiArbHak5Yxrbmf78K4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sequence\": [\"baz\", \"bar\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/votings/f07f4615-019a-40d1-8133-362799bc4b23/vote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"votings",
+								"f07f4615-019a-40d1-8133-362799bc4b23",
+								"vote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close voting",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNjUxYjIzMjUtMTAwNC00MWQxLWIxODEtODA5YzczODZmODM5IiwiaWF0IjoxNjk2NTc3ODY1fQ.VwCW2E4f6NUsRyq_N1S_e8WhSiArbHak5Yxrbmf78K4",
 								"type": "text"
 							}
 						],
@@ -201,18 +239,18 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/votings/729dac10-c412-4a3b-afd5-2633b3303231/vote",
+							"raw": "http://localhost:3000/api/v1/votings/5f1ca892-ac15-4fc1-92cd-2e303f547226/close",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
 								"votings",
-								"729dac10-c412-4a3b-afd5-2633b3303231",
-								"vote"
+								"5f1ca892-ac15-4fc1-92cd-2e303f547226",
+								"close"
 							]
 						}
 					},
@@ -225,13 +263,13 @@
 						"header": [
 							{
 								"key": "auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMjliMTE5ZTQtNmI0Mi00N2UyLWEyNzYtN2ViYTJkMjg2NmUwIiwiaWF0IjoxNjk1NjI3MTUzfQ.kv09Dh6XkPnJGiIacBsxU1SDR8P_WrgxfmvEmjCoHQg",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNjUxYjIzMjUtMTAwNC00MWQxLWIxODEtODA5YzczODZmODM5IiwiaWF0IjoxNjk2NTc3ODY1fQ.VwCW2E4f6NUsRyq_N1S_e8WhSiArbHak5Yxrbmf78K4",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"foo3\",\n    \"options\": [\"bar\", \"baz\"]\n}",
+							"raw": "{\n    \"name\": \"foo3\",\n    \"options\": [\"baz\", \"bar\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -239,17 +277,46 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}:{{port}}/api/v1/votings/create",
+							"raw": "http://localhost:3000/api/v1/votings/create",
 							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"localhost"
 							],
-							"port": "{{port}}",
+							"port": "3000",
 							"path": [
 								"api",
 								"v1",
 								"votings",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "results",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNjUxYjIzMjUtMTAwNC00MWQxLWIxODEtODA5YzczODZmODM5IiwiaWF0IjoxNjk2NTc3ODY1fQ.VwCW2E4f6NUsRyq_N1S_e8WhSiArbHak5Yxrbmf78K4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/votings/f07f4615-019a-40d1-8133-362799bc4b23/results",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"votings",
+								"f07f4615-019a-40d1-8133-362799bc4b23",
+								"results"
 							]
 						}
 					},
