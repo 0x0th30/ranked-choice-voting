@@ -16,21 +16,24 @@ export class ExtractResultsMiddleware implements Middleware {
     const { user } = (request as any);
     const { uuid } = request.params;
 
-    const closeVoting = await ExtractResultsBusiness.execute(user.uuid, uuid);
+    const extractResults = await ExtractResultsBusiness.execute(user.uuid, uuid);
 
-    if (closeVoting.success && closeVoting.data) {
+    if (extractResults.success && extractResults.data) {
       responseContent.success = true;
-      // responseContent.data = { uuid: closeVoting.data.uuid };
+      responseContent.data = {
+        winner: extractResults.data.winner,
+        voteCount: extractResults.data.voteCount,
+      };
       return response.status(200).json(responseContent);
     }
 
-    if (closeVoting.error instanceof UnauthorizedVotingOperation) {
+    if (extractResults.error instanceof UnauthorizedVotingOperation) {
       responseContent.success = false;
       responseContent.message = 'Only voting author can close it!';
       return response.status(401).json(responseContent);
     }
 
-    if (closeVoting.error instanceof NotFoundVoting) {
+    if (extractResults.error instanceof NotFoundVoting) {
       responseContent.success = false;
       responseContent.message = `Cannot found voting "${uuid}"!`;
       return response.status(404).json(responseContent);

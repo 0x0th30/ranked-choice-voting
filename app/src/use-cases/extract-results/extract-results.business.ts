@@ -8,6 +8,29 @@ export class ExtractResults {
     private readonly PrismaManager: PrismaClient,
   ) {}
 
+  private findWinner(voteCount: { [key: string]: number }): string {
+    const voteEntries = Object.entries(voteCount);
+
+    const numberOfVotes = voteEntries.length;
+    let indexCounter = 1;
+
+    while (indexCounter < numberOfVotes) {
+      const currentVote = voteEntries[indexCounter];
+      let previousIndex = indexCounter - 1;
+
+      while (previousIndex >= 0 && voteEntries[previousIndex][1] > currentVote[1]) {
+        voteEntries[previousIndex + 1] = voteEntries[previousIndex];
+        previousIndex -= 1;
+      }
+
+      voteEntries[previousIndex + 1] = currentVote;
+      indexCounter += 1;
+    }
+
+    const winner = voteEntries.reverse()[0][0];
+    return winner;
+  }
+
   public async execute(userUUID: string, votingUUID: string): Promise<ExtractResultsDTO> {
     logger.info('Initializing "extract-results" service/use-case...');
     const response: ExtractResultsDTO = { success: false };
@@ -49,9 +72,10 @@ export class ExtractResults {
       });
     });
 
-    // const winner = Object.entries(voteCount)
+    const winner = this.findWinner(voteCount);
 
-    console.log(voteCount);
+    response.success = true;
+    response.data = { winner, voteCount };
 
     logger.info('Finishing "extract-results" service/use-case.');
     return response;
