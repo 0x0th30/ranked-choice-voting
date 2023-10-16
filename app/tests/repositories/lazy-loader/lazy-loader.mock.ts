@@ -5,4 +5,3 @@ export const LazyLoaderMock = {
   readVotingState: jest.spyOn(LazyLoader.prototype, 'readVotingState'),
   readVotingOptions: jest.spyOn(LazyLoader.prototype, 'readVotingOptions'),
 };
-
