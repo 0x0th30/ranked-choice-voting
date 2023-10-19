@@ -66,6 +66,7 @@ describe('LazyLoader class', () => {
     });
     it('should return false if found vote in Prisma', () => {
       RedisMock.get.mockResolvedValueOnce(null);
+      PrismaMock.vote.findFirst.mockRestore();
       PrismaMock.vote.findFirst.mockResolvedValueOnce(Vote);
 
       LazyLoaderSUT.isUniqueVotePerUser(votingUUID, userUUID).then((response) => {
@@ -100,3 +101,4 @@ describe('LazyLoader class', () => {
     it.todo('should throw "NotFoundVoting" if cannot found it');
   });
 });
+

@@ -31,6 +31,8 @@ export class LazyLoader {
         }
         return false;
       });
+
+    console.log(storedVoteExists);
     if (storedVoteExists) return false;
 
     return true;
