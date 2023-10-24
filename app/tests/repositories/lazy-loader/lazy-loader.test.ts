@@ -3,7 +3,8 @@ import { RedisClientType } from '@redis/client';
 import { LazyLoader } from '@repositories/lazy-loader';
 import { PrismaMock } from '@mocks/prisma.mock';
 import { RedisMock } from '@mocks/redis.mock';
-import { Vote } from './lazy-loader.helper';
+import { Vote, Voting } from './lazy-loader.helper';
+import { NotFoundVoting } from '@errors/voting-error';
 
 jest.mock('uuid', () => ({ v1: () => 'f@k3-uuid-h3r3' }));
 
@@ -11,7 +12,7 @@ const userUUID = 'f@k3-uuid-h3r3';
 const votingUUID = 'f@k3-uuid-h3r3';
 // const name = 'voting name';
 const options = ['option1', 'option2', 'option3'];
-// const state = 'OPEN';
+const state = 'OPEN';
 
 const LazyLoaderSUT = new LazyLoader(
   PrismaMock as any as PrismaClient,
@@ -46,7 +47,7 @@ describe('LazyLoader class', () => {
         expect(response).toEqual(false);
       });
     });
-    it('should call "this.PrismaManager.findFirst" if cannot found vote in Redis', () => {
+    it('should call "this.PrismaManager.vote.findFirst" if cannot found vote in Redis', () => {
       RedisMock.get.mockResolvedValueOnce(null);
       PrismaMock.vote.findFirst.mockResolvedValueOnce(undefined as any);
 
@@ -54,7 +55,7 @@ describe('LazyLoader class', () => {
         expect(PrismaMock.vote.findFirst).toBeCalled();
       });
     });
-    it('should call "this.PrismaManager.findFirst" using voting and user UUID', () => {
+    it('should call "this.PrismaManager.vote.findFirst" using voting and user UUID', () => {
       RedisMock.get.mockResolvedValueOnce(null);
       PrismaMock.vote.findFirst.mockResolvedValueOnce(undefined as any);
 
@@ -83,13 +84,69 @@ describe('LazyLoader class', () => {
     });
   });
   describe('(public) readVotingState method', () => {
-    it.todo('should call "this.RedisManager.get" method to search voting state');
-    it.todo('should call "this.RedisManager.get" using correct key format');
-    it.todo('should return voting state if found something in Redis');
-    it.todo('should call "this.PrismaManager.findFirst" method to search vote');
-    it.todo('should call "this.PrismaManager.findFirst" using voting and user UUID');
-    it.todo('should return voting options if found something in Prisma');
-    it.todo('should throw "NotFoundVoting" if cannot found it');
+    it('should call "this.RedisManager.get" method to search voting state', () => {
+      RedisMock.get.mockResolvedValueOnce(state);
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(undefined as any);
+
+      LazyLoaderSUT.readVotingState(votingUUID).then(() => {
+        expect(RedisMock.get).toBeCalled();
+      }); 
+    });
+    it('should call "this.RedisManager.get" using correct key format', () => {
+      const key = `${votingUUID}:state`;
+
+      RedisMock.get.mockResolvedValueOnce(state);
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(undefined as any);
+
+      LazyLoaderSUT.readVotingState(votingUUID).then(() => {
+        expect(RedisMock.get).toBeCalledWith(key);
+      });
+    });
+    it('should return voting state if found it in Redis', () => {
+      RedisMock.get.mockResolvedValueOnce(state);
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(undefined as any);
+
+      LazyLoaderSUT.readVotingState(votingUUID).then((response) => {
+        expect(response).toEqual(state);
+      });
+    });
+    it('should call "this.PrismaManager.voting.findFirst" method to search '
+      + 'voting', () => {
+      RedisMock.get.mockResolvedValueOnce(null);
+      PrismaMock.voting.findFirst.mockRestore();
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(Voting);
+
+      LazyLoaderSUT.readVotingState(votingUUID).then(() => {
+        expect(PrismaMock.voting.findFirst).toBeCalled();
+      });
+    });
+    it('should call "this.PrismaManager.voting.findFirst" using voting and user '
+      + 'UUID', () => {
+      RedisMock.get.mockResolvedValueOnce(null);
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(Voting);
+
+      LazyLoaderSUT.readVotingState(votingUUID).then(() => {
+        expect(PrismaMock.voting.findFirst).toBeCalledWith({
+          where: { uuid: votingUUID },
+        });
+      });
+    });
+    it('should return voting options if found something in Prisma', () => {
+      RedisMock.get.mockResolvedValueOnce(null);
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(Voting);
+
+      LazyLoaderSUT.readVotingState(votingUUID).then((response) => {
+        expect(response).toEqual(state);
+      });
+    });
+    it('should throw "NotFoundVoting" if cannot found it', () => {
+      RedisMock.get.mockResolvedValueOnce(null);
+      PrismaMock.voting.findFirst.mockResolvedValueOnce(null);
+
+      LazyLoaderSUT.readVotingState(votingUUID).catch((error) => {
+        expect(error).toEqual(new NotFoundVoting(votingUUID));
+      });
+    });
   });
   describe('(public) readVotingOptions method', () => {
     it.todo('should call "this.RedisManager.get" method to search voting options');
