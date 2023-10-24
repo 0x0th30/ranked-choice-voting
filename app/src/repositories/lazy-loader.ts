@@ -54,10 +54,10 @@ export class LazyLoader {
 
     logger.info(`Cache miss! Searching by "${uuid}" voting state in database...`);
     const storedVotingState = await this.PrismaManager.voting
-      .findFirst({ where: { uuid } })
+      .findFirst({ select: { state: true }, where: { uuid } })
       .then((value) => {
-        if (value && value.uuid && Object.keys(VotingState).includes(value.state)) {
-          logger.info(`Current state of "${uuid}" voting is ${value}...`);
+        if (value && Object.keys(VotingState).includes(value.state)) {
+          logger.info(`Current state of "${uuid}" voting is ${value.state}...`);
           return value.state as VotingState;
         }
         return false;
