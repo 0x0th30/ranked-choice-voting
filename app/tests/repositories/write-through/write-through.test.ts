@@ -59,7 +59,7 @@ describe('WriteThrough class', () => {
     it('should store voting data in Postgres', () => {
       const voting = {
         data: {
-          authorUUID, uuid, name, available_options: options, state,
+          author_uuid: authorUUID, uuid, name, available_options: options, state,
         },
       };
 
