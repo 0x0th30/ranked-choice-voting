@@ -54,6 +54,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "resolutions": {
-    "json5": "^1.0.2"
+    "json5": "^1.0.2",
+    "jest": ">=7.23.2"
   }
 }
