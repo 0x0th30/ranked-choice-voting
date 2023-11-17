@@ -7,7 +7,7 @@ import { CreatedVoting } from './write-through.helper';
 
 jest.mock('uuid', () => ({ v1: () => 'f@k3-uuid-h3r3' }));
 
-const author_uuid = 'f@k3-uuid-h3r3';
+const authorUUID = 'f@k3-uuid-h3r3';
 const uuid = 'f@k3-uuid-h3r3';
 const name = 'voting name';
 const options = ['option1', 'option2', 'option3'];
@@ -25,9 +25,10 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeVoting(author_uuid, uuid, name, options, state).then((value) => {
-        expect(value).toEqual(CreatedVoting);
-      });
+      WriteThroughSUT.writeVoting(authorUUID, uuid, name, options, state)
+        .then((value) => {
+          expect(value).toEqual(CreatedVoting);
+        });
     });
     it('should cache voting options in Redis', () => {
       const votingOptionsKey = `${uuid}:options`;
@@ -37,7 +38,7 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeVoting(author_uuid, uuid, name, options, state).then(() => {
+      WriteThroughSUT.writeVoting(authorUUID, uuid, name, options, state).then(() => {
         expect(RedisMock.set)
           .toHaveBeenNthCalledWith(1, votingOptionsKey, votingOptionsValue);
       });
@@ -50,7 +51,7 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeVoting(author_uuid, uuid, name, options, state).then(() => {
+      WriteThroughSUT.writeVoting(authorUUID, uuid, name, options, state).then(() => {
         expect(RedisMock.set)
           .toHaveBeenNthCalledWith(2, votingStateKey, votingStateValue);
       });
@@ -58,7 +59,7 @@ describe('WriteThrough class', () => {
     it('should store voting data in Postgres', () => {
       const voting = {
         data: {
-          author_uuid, uuid, name, available_options: options, state,
+          authorUUID, uuid, name, available_options: options, state,
         },
       };
 
@@ -66,7 +67,7 @@ describe('WriteThrough class', () => {
       RedisMock.set.mockResolvedValueOnce('OK');
       PrismaMock.voting.create.mockResolvedValueOnce(CreatedVoting as Voting);
 
-      WriteThroughSUT.writeVoting(author_uuid, uuid, name, options, state).then(() => {
+      WriteThroughSUT.writeVoting(authorUUID, uuid, name, options, state).then(() => {
         expect(PrismaMock.voting.create).toBeCalledWith(voting);
       });
     });

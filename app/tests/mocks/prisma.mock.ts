@@ -14,4 +14,3 @@ export const PrismaMock = {
     findFirst: jest.spyOn(new PrismaClient().user, 'findFirst'),
   },
 };
-

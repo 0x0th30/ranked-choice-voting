@@ -36,7 +36,8 @@ describe('CreateVoting class', () => {
       WriteThroughMock.writeVoting.mockResolvedValueOnce(CreatedVoting as Voting);
 
       CreateVotingSUT.execute(userUUID, name, options).then(() => {
-        expect(WriteThroughMock.writeVoting).toBeCalledWith(userUUID, votingUUID, name, options, state);
+        expect(WriteThroughMock.writeVoting)
+          .toBeCalledWith(userUUID, votingUUID, name, options, state);
       });
     });
     it('should set "success" to "true" when voting creation is successful', () => {

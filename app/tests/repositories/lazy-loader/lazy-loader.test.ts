@@ -3,8 +3,8 @@ import { RedisClientType } from '@redis/client';
 import { LazyLoader } from '@repositories/lazy-loader';
 import { PrismaMock } from '@mocks/prisma.mock';
 import { RedisMock } from '@mocks/redis.mock';
-import { Vote, Voting } from './lazy-loader.helper';
 import { NotFoundVoting } from '@errors/voting-error';
+import { Vote, Voting } from './lazy-loader.helper';
 
 jest.mock('uuid', () => ({ v1: () => 'f@k3-uuid-h3r3' }));
 
@@ -47,7 +47,8 @@ describe('LazyLoader class', () => {
         expect(response).toEqual(false);
       });
     });
-    it('should call "this.PrismaManager.vote.findFirst" if cannot found vote in Redis', () => {
+    it('should call "this.PrismaManager.vote.findFirst" if cannot found vote'
+    + ' in Redis', () => {
       RedisMock.get.mockResolvedValueOnce(null);
       PrismaMock.vote.findFirst.mockResolvedValueOnce(undefined as any);
 
@@ -55,7 +56,8 @@ describe('LazyLoader class', () => {
         expect(PrismaMock.vote.findFirst).toBeCalled();
       });
     });
-    it('should call "this.PrismaManager.vote.findFirst" using voting and user UUID', () => {
+    it('should call "this.PrismaManager.vote.findFirst" using voting and user'
+    + ' UUID', () => {
       RedisMock.get.mockResolvedValueOnce(null);
       PrismaMock.vote.findFirst.mockResolvedValueOnce(undefined as any);
 
@@ -90,7 +92,7 @@ describe('LazyLoader class', () => {
 
       LazyLoaderSUT.readVotingState(votingUUID).then(() => {
         expect(RedisMock.get).toBeCalled();
-      }); 
+      });
     });
     it('should call "this.RedisManager.get" using correct key format', () => {
       const key = `${votingUUID}:state`;
@@ -158,7 +160,7 @@ describe('LazyLoader class', () => {
 
       LazyLoaderSUT.readVotingOptions(votingUUID).then(() => {
         expect(RedisMock.get).toBeCalled();
-      }); 
+      });
     });
     it('should call "this.RedisManager.get" using correct key format', () => {
       const key = `${votingUUID}:options`;
@@ -216,4 +218,3 @@ describe('LazyLoader class', () => {
     });
   });
 });
-

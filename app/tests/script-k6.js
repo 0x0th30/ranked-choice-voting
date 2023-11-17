@@ -14,6 +14,7 @@ function makeRequest(name, method, address, data, headers) {
   check(response, { [`Successful ${name} request`]: (r) => r.status === 200 });
 }
 
+// eslint-disable-next-line func-names
 export default function () {
   group('user actions', () => {
     makeRequest(
@@ -28,7 +29,8 @@ export default function () {
       'register',
       'POST',
       '/api/v1/users/register',
-      '{"name": "theo", "email": "theodorotheodore@gmail.combr", "password": "rockyou.txt"}',
+      '{"name": "theo", "email": "theodorotheodore@gmail.combr",'
+      + ' "password": "rockyou.txt"}',
       {},
     );
 
