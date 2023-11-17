@@ -24,12 +24,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/auth",
+							"raw": "http://{{host}}:{{port}}/api/v1/users/auth",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -55,12 +55,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/register",
+							"raw": "http://{{host}}:{{port}}/api/v1/users/register",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -89,12 +89,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/theodorotheodore@gmail.com/account-activation/send-token",
+							"raw": "http://{{host}}:{{port}}/api/v1/users/theodorotheodore@gmail.com/account-activation/send-token",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -125,12 +125,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/<user>/<token>/activate-account",
+							"raw": "http://{{host}}:{{port}}/api/v1/users/<user>/<token>/activate-account",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -158,12 +158,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/<token>/password-recover",
+							"raw": "http://{{host}}:{{port}}/api/v1/users/<token>/password-recover",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -201,12 +201,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/votings/f07f4615-019a-40d1-8133-362799bc4b23/vote",
+							"raw": "http://{{host}}:{{port}}/api/v1/votings/f07f4615-019a-40d1-8133-362799bc4b23/vote",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -239,12 +239,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/votings/5f1ca892-ac15-4fc1-92cd-2e303f547226/close",
+							"raw": "http://{{host}}:{{port}}/api/v1/votings/5f1ca892-ac15-4fc1-92cd-2e303f547226/close",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -277,12 +277,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/votings/create",
+							"raw": "http://{{host}}:{{port}}/api/v1/votings/create",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",
@@ -305,12 +305,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/votings/f07f4615-019a-40d1-8133-362799bc4b23/results",
+							"raw": "http://{{host}}:{{port}}/api/v1/votings/f07f4615-019a-40d1-8133-362799bc4b23/results",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"v1",

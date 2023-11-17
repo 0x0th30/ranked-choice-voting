@@ -1,4 +1,4 @@
-# Ranked Choice Voting (WIP)
+# Ranked Choice Voting
 API to manage, create and vote by [ranked choice voting system](https://en.wikipedia.org/wiki/Ranked_voting).
 
 ## System Design
