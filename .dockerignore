@@ -1,5 +1,7 @@
 *
 
+!config/nginx.conf
+
 !app/src/
 !app/prisma/
 !app/tsconfig.json
