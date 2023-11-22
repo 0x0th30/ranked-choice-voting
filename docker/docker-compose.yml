@@ -1,12 +1,24 @@
 services:
+  nginx:
+    container_name: ranked-choice-voting-nginx
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ../config/nginx.conf:/etc/nginx/nginx.conf
+    env_file:
+      - ../config/nginx.env
+    depends_on:
+      - api
+    links:
+      - api
+
   api:
     container_name: ranked-choice-voting-api
     build:
       context: ..
       dockerfile: docker/Dockerfile.app.prod
       # dockerfile: docker/Dockerfile.app.dev
-    ports:
-      - 3000:3000
     env_file:
       - ../config/app.env
     depends_on:
@@ -43,16 +55,12 @@ services:
       - ../volumes/redis/data:/data
     env_file:
       - ../config/redis.env
-    ports:
-      - 6379:6379
 
   rabbitmq:
     container_name: ranked-choice-voting-rabbitmq
     image: rabbitmq
     env_file:
       - ../config/rabbitmq.env
-    ports:
-      - 5672:5672
 
   postgres:
     container_name: ranked-choice-voting-postgres
@@ -61,5 +69,3 @@ services:
       - ../volumes/postgres/data:/var/lib/postgresql/data
     env_file:
       - ../config/postgres.env
-    ports:
-      - 5432:5432
