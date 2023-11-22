@@ -1,5 +1,6 @@
+*.conf
 *.env
-!*example.env
+!*example.*
 
 volumes/**/*
 
